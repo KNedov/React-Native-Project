@@ -3,13 +3,17 @@ import api from "./api";
 export function getAll() {
     return api.get('/items');
 }
+export async function getLast() {
+    const response= await api.get('/items');
+    return response.data[response.data.length - 1]
+}
 
-export function getOne(mealId) {
-    if (!mealId) {
+export function getOne(itemId) {
+    if (!itemId) {
         throw new Error('No ID provided!');
     }
 
-    return api.get(`/items/${mealId}`);
+    return api.get(`/items/${itemId}`);
 }
 
 export function getAllByCategoryId(categoryId) {
