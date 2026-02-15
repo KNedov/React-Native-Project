@@ -4,6 +4,8 @@ import { categoryApi, itemsApi } from "../api";
 import CategoryCard from "../components/CategoryCard";
 import ProductCard from "../components/ProductCard";
 import NewCard from "../components/NewCard";
+import { useTheme } from "../hooks/useTheme";
+
 
 export default function HomeScreen() {
     const [categories, setCategories] = useState([])
@@ -11,6 +13,7 @@ export default function HomeScreen() {
     const [refreshing, setRefreshing] = useState(true)
     const [featured, setFeatured] = useState([])
     const [toggleRefresh, setToggleRefresh] = useState(true)
+    const { theme } = useTheme();
 
 
     useEffect(() => {
@@ -19,6 +22,8 @@ export default function HomeScreen() {
             try {
                 const categoryData = await categoryApi.getAll();
                 setCategories(categoryData.data);
+
+
 
                 const featuredData = await itemsApi.getFeatured();
                 setFeatured(featuredData.data)
@@ -43,6 +48,8 @@ export default function HomeScreen() {
     };
     const itemPressHandler = (itemId) => {
 
+
+
         alert(`Item Pressed: ${itemId} `)
     };
 
@@ -50,12 +57,11 @@ export default function HomeScreen() {
 
     return (
 
-
-        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshHandler} />} >
-            <NewCard lastItem={lastItem} onPress={itemPressHandler}/>
+        <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshHandler} />} >
+            <NewCard lastItem={lastItem} onPress={itemPressHandler} />
 
             <View style={styles.section}>
-                <Text style={styles.title}>Categories</Text>
+                <Text style={[styles.title,{color:theme.colors.text}]}>Categories</Text>
 
                 <ScrollView horizontal  >
 
@@ -73,7 +79,7 @@ export default function HomeScreen() {
                 </ScrollView>
             </View>
             <View style={styles.section}>
-                <Text style={styles.title}>Featured Items</Text>
+                <Text style={[styles.title,{color:theme.colors.text}]}>Featured Items</Text>
                 <ScrollView horizontal style={styles.featuredList}>
 
                     <View style={{ gap: 12, flexDirection: 'row' }}>
@@ -104,7 +110,7 @@ const styles = StyleSheet.create({
 
         paddingBottom: 8,
     },
-    
+
     sectionTitle: {
         fontSize: 20,
         fontWeight: '700',

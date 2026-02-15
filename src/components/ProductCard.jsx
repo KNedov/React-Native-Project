@@ -1,15 +1,16 @@
 import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../hooks/useTheme";
 
 export default function ProductCard({ id, name, description, price, imageUrl, onPress, discount }) {
-
+ const { theme } = useTheme();
     return (
         <TouchableOpacity
             onPress={() => onPress(id)}
             style={styles.cardContainer}
             activeOpacity={0.9}
         >
-            <View style={styles.card}>
+            <View style={[styles.card,{backgroundColor:theme.colors.backgroundCard}]}>
 
                 <View style={styles.imageContainer}>
                     <Image
@@ -32,7 +33,7 @@ export default function ProductCard({ id, name, description, price, imageUrl, on
                 <View style={styles.content}>
 
 
-                    <Text style={styles.title} numberOfLines={2}>{name}</Text>
+                    <Text style={[styles.title,{color:theme.colors.textCard}]} numberOfLines={2}>{name}</Text>
 
                     {description && (
                         <Text style={styles.subtitle} numberOfLines={1}>{description}</Text>
@@ -62,11 +63,8 @@ export default function ProductCard({ id, name, description, price, imageUrl, on
 const styles = StyleSheet.create({
     cardContainer: {
         width: '100%',
-
-
     },
     card: {
-        backgroundColor: '#FFF',
         borderRadius: 16,
         overflow: 'hidden',
         elevation: 3,
@@ -128,7 +126,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#333',
         marginBottom: 4,
         lineHeight: 20,
     },

@@ -18,7 +18,7 @@ export default function TabNavigator() {
                 headerShown:false
             }}/>
             <Tabs.Screen
-            name="Add"
+            name="AddTab"
             component={AddNavigator}
             options={{
                 title:"Add Product",
@@ -26,10 +26,10 @@ export default function TabNavigator() {
                 headerShown:false
             }}/>
             <Tabs.Screen
-            name="User"
+            name="UserTab"
             component={UserNavigator}
             options={{
-                title:"User",
+                title:"Profile",
                 tabBarIcon:({color,size})=><Ionicons name='person-circle-outline' size={size} color={color}/>,
                 headerShown:false
             }}/>

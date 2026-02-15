@@ -1,18 +1,20 @@
 import { View,Text,StyleSheet,TouchableOpacity } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
+import { useTheme } from "../hooks/useTheme";
 
 export default function CategoryCard({
     id,
     title,
     icon,
     onPress}) {
+        const{theme}=useTheme()
 
 
 
     return (
         
         
-                <TouchableOpacity style={styles.categoryCard} onPress={()=>onPress(id)}>
+                <TouchableOpacity style={[styles.categoryCard,{backgroundColor:theme.colors.backgroundCard}]} onPress={()=>onPress(id)}>
                     <View style={styles.iconWrapper}>
                         <Ionicons
                             name={icon}
@@ -21,7 +23,7 @@ export default function CategoryCard({
                         />
                     </View>
 
-                    <Text style={styles.categoryText}>
+                    <Text style={{color:theme.colors.textCard}}>
                         {title}
                     </Text>
                 </TouchableOpacity>
@@ -55,13 +57,13 @@ const styles = StyleSheet.create({
         width: 22,
         height: 22,
         borderRadius: 28,
-        backgroundColor: 'rgba(8, 144, 255, 0.1)',
+        backgroundColor: 'rgba(8, 144, 255, 0.2)',
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: 8,
 
     },
-
+   
     categoryText: {
         fontSize: 14,
         fontWeight: '600',
