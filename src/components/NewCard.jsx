@@ -1,26 +1,30 @@
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-export default function NewCard({lastItem,onPress,}) {
+export default function NewCard({ lastItem, onPress, }) {
     return (
-        <TouchableOpacity onPress={()=>onPress(lastItem.id)} style={styles.card}>
+        <TouchableOpacity onPress={() => onPress(lastItem.id)} style={styles.card}>
+            <View style={{ alignItems: 'flex-end', position:'absolute', top: 5, right: '5'}}>
+                        <Text style={styles.newLabel} >New</Text>
+                    </View>
+
 
             <Image source={{ uri: lastItem.imageUrl }}
                 style={styles.image}
                 resizeMode='contain' />
             <View >
-                <View style={{ justifyContent: 'space-between', height: '100%', paddingTop: 6 }}>
-                    <View style={{ alignItems: 'flex-end' }}>
-                        <Text style={styles.newLabel} >New</Text>
-                    </View>
 
-                    <View style={{ paddingBottom: 50,gap:2 }}>
+                <View style={{ justifyContent: 'flex-end',alignItems:'flex-end', height: '100%', paddingTop: 6 }}>
+
+                    
+
+                    <View style={{ paddingBottom: 30, gap: 2 }}>
                         <Text style={{ fontSize: 12, color: 'black' }}>Introducing</Text>
                         <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{lastItem.name}</Text>
-                        
-                            <View style={{backgroundColor:'gray',width:80,alignItems:'center',justifyContent:'center',paddingTop:6,paddingBottom:6,borderRadius:6,marginTop:20}}>
-                                <Text style={{fontSize:16,color:"white"}} >Buy Now!</Text>
-                            </View>
-                        
+
+                        <View style={{ backgroundColor: 'gray', width: 80, alignItems: 'center', justifyContent: 'center', paddingTop: 6, paddingBottom: 6, borderRadius: 6, marginTop: 10 }}>
+                            <Text style={{ fontSize: 16, color: "white" }} >Buy Now!</Text>
+                        </View>
+
                     </View>
                 </View>
             </View>
@@ -46,10 +50,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     image: {
-        width: '40%',
+        width: '180',
         height: '100%',
+        
         marginTop: 5,
-        position: 'center',
+
         margin: 10
     },
     newLabel: {
@@ -59,7 +64,10 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         color: 'white',
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        position:'absolute',
+        top: 5,
+        right: 5
     },
 
 })
