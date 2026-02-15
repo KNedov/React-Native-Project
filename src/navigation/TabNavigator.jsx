@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeNavigator from "./HomeNavigator";
 import{Ionicons } from "@expo/vector-icons"
+import AddNavigator from "./AddNavigator";
 
 export default function TabNavigator() {
     const Tabs=createBottomTabNavigator()
@@ -13,6 +14,14 @@ export default function TabNavigator() {
             options={{
                 title:"Home",
                 tabBarIcon:({color,size})=><Ionicons name='home' size={size} color={color}/>,
+                headerShown:false
+            }}/>
+            <Tabs.Screen
+            name="Add"
+            component={AddNavigator}
+            options={{
+                title:"Add Product",
+                tabBarIcon:({color,size})=><Ionicons name='add' size={size} color={color}/>,
                 headerShown:false
             }}/>
 
