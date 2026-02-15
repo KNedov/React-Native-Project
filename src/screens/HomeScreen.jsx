@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, Text, View, RefreshControl, StyleSheet, Image } from "react-native";
+import { ScrollView, Text, View, RefreshControl, StyleSheet } from "react-native";
 import { categoryApi, itemsApi } from "../api";
 import CategoryCard from "../components/CategoryCard";
 import ProductCard from "../components/ProductCard";
@@ -7,7 +7,7 @@ import NewCard from "../components/NewCard";
 import { useTheme } from "../hooks/useTheme";
 
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
     const [categories, setCategories] = useState([])
     const [lastItem, setLastItem] = useState([])
     const [refreshing, setRefreshing] = useState(true)
@@ -44,26 +44,26 @@ export default function HomeScreen() {
     };
     const categoryPressHandler = (categoryId) => {
 
-        alert(`Item Pressed: ${categoryId} `)
+        navigation.navigate('Category',{categoryId})
     };
     const itemPressHandler = (itemId) => {
 
 
 
-        alert(`Item Pressed: ${itemId} `)
+        navigation.navigate('Details',{itemId})
     };
 
 
 
     return (
 
-        <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshHandler} />} >
+        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshHandler} />} >
             <NewCard lastItem={lastItem} onPress={itemPressHandler} />
 
             <View style={styles.section}>
                 <Text style={[styles.title,{color:theme.colors.text}]}>Categories</Text>
 
-                <ScrollView horizontal  >
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}  >
 
                     <View style={{ gap: 12, flexDirection: 'row' }}>
                         {categories.map((category) => {
@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
         margin: 10
     },
     card: {
-        backgroundColor: '#FFF',
         borderRadius: 16,
         overflow: 'hidden',
         elevation: 3,

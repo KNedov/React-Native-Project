@@ -12,7 +12,6 @@ export function getOne(itemId) {
     if (!itemId) {
         throw new Error('No ID provided!');
     }
-
     return api.get(`/items/${itemId}`);
 }
 
