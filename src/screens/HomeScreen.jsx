@@ -7,7 +7,7 @@ import NewCard from "../components/NewCard";
 import { useTheme } from "../hooks/useTheme";
 
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({navigation,route}) {
     const [categories, setCategories] = useState([])
     const [lastItem, setLastItem] = useState([])
     const [refreshing, setRefreshing] = useState(true)
@@ -15,6 +15,16 @@ export default function HomeScreen({navigation}) {
     const [toggleRefresh, setToggleRefresh] = useState(true)
     const { theme } = useTheme();
 
+    
+      
+    useEffect(() => {
+        
+        if (route?.params?.refresh) {
+            setToggleRefresh(prev => !prev);
+            navigation.setParams({ refresh: false });
+        }
+        
+    }, [route?.params?.refresh]);
 
     useEffect(() => {
         async function fetchData() {

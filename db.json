@@ -3,32 +3,32 @@
     {
       "id": "cat-1",
       "title": "Phones",
-      "icon":"phone-portrait-outline"
+      "icon": "phone-portrait-outline"
     },
     {
       "id": "cat-2",
       "title": "Tablets",
-      "icon":"tablet-landscape-outline"
+      "icon": "tablet-landscape-outline"
     },
     {
       "id": "cat-3",
       "title": "Monitors",
-      "icon":"tv-outline"
+      "icon": "tv-outline"
     },
     {
       "id": "cat-4",
       "title": "Laptops",
-      "icon":"laptop-outline"
+      "icon": "laptop-outline"
     },
     {
       "id": "cat-5",
       "title": "Computers",
-      "icon":"journal-outline"
+      "icon": "journal-outline"
     },
     {
       "id": "cat-6",
       "title": "TVs",
-      "icon":"tv-sharp"
+      "icon": "tv-sharp"
     }
   ],
   "items": [
@@ -38,11 +38,11 @@
       "name": "Apple iPhone 17 Pro Max",
       "color": "Gold",
       "description": "Смартфон с 6.9-инчов OLED дисплей, чип Apple A19 Pro, Тройна камера 48MP + 48MP + 48MP.",
-      "price": 1449.00,
+      "price": 1449,
       "featured": true,
-      "discount":20,
+      "discount": 20,
       "imageUrl": "https://ardes.bg/uploads/original/apple-iphone-17-pro-max-672299.jpg",
-      "created_at":"2025-08-09T14:58:30.845+00:00"
+      "created_at": "2025-08-09T14:58:30.845+00:00"
     },
     {
       "id": "phone_002",
@@ -50,10 +50,11 @@
       "name": "Samsung Galaxy S25 Ultra",
       "color": "Phantom Black",
       "description": "Флагмански смартфон с Dynamic AMOLED 2X дисплей, чип Qualcomm SM8750-AB Snapdragon 8 Elite, Четворна камера 200MP + 50MP + 50MP + 10MP.",
-      "price": 1199.00,
+      "price": 1199,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/samsung-galaxy-s25-ultra-607503.jpg",
-      "created_at":"2025-08-09T16:58:30.845+00:00"
+      "created_at": "2025-08-09T16:58:30.845+00:00"
     },
     {
       "id": "phone_003",
@@ -61,10 +62,11 @@
       "name": "Xiaomi Redmi 15C",
       "color": "Moonlight Blue",
       "description": "Смартфон с  6.9-инчов AMOLED дисплей 120Hz, чип Mediatek Helio G81 Ultra и двойна камера 50MP + 50MP.",
-      "price": 569.00,
+      "price": 569,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/xiaomi-redmi-15c-675113.jpg",
-      "created_at":"2025-08-29T16:58:30.845+00:00"
+      "created_at": "2025-08-29T16:58:30.845+00:00"
     },
     {
       "id": "phone_004",
@@ -72,10 +74,11 @@
       "name": "Google Pixel 10 5G",
       "color": "Lemongrass",
       "description": "Смартфон с 6.3-инчов OLED дисплей, чип  Google Tensor G5 и усъвършенствана AI фотография.",
-      "price": 807.00,
+      "price": 807,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/google-pixel-10-665995.jpg",
-      "created_at":"2025-09-09T16:58:30.845+00:00"
+      "created_at": "2025-09-09T16:58:30.845+00:00"
     },
     {
       "id": "tablet_001",
@@ -83,10 +86,11 @@
       "name": "Apple iPad mini 7",
       "color": "Purple",
       "description": "Таблет с 8.3-инчов Liquid Retina дисплей, чип  2x Apple A17 (3.8 GHz) + 4x Apple A17 (2.1 GHz), 128GB памет, 8GB RAM и Wi-Fi.",
-      "price": 623.00,
+      "price": 623,
+      "discount": 0,
       "featured": true,
       "imageUrl": "https://ardes.bg/uploads/original/apple-ipad-mini-7-2024-585682.jpg",
-      "created_at":"2025-09-19T16:58:30.845+00:00"
+      "created_at": "2025-09-19T16:58:30.845+00:00"
     },
     {
       "id": "tablet_002",
@@ -94,10 +98,11 @@
       "name": "Samsung Galaxy Tab A11+",
       "color": "Gray",
       "description": "Таблет с 11.0-инчов дисплей, чип 4x Cortex-A78,  128GB памет.",
-      "price": 499.00,
+      "price": 499,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/samsung-galaxy-tab-a11-701754.jpg",
-      "created_at":"2025-09-20T16:58:30.845+00:00"
+      "created_at": "2025-09-20T16:58:30.845+00:00"
     },
     {
       "id": "tablet_003",
@@ -105,10 +110,11 @@
       "name": "Ulefone Armor Pad 5 Pro",
       "color": "Black",
       "description": "Таблет с 11-инчов 144Hz дисплей, чип 4x Cortex-A78, 8GB RAM, 256GB памет .",
-      "price": 510.00,
+      "price": 510,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/ulefone-armor-pad-5-pro-696618.jpg",
-      "created_at":"2025-08-11T16:58:30.845+00:00"
+      "created_at": "2025-08-11T16:58:30.845+00:00"
     },
     {
       "id": "tablet_004",
@@ -117,9 +123,10 @@
       "color": "Luna Grey",
       "description": "Бюджетен таблет с  8.7-инчов дисплей, чип 2x Cortex-A75, 3GB RAM, 32GB памет .",
       "price": 299,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/lenovo-tab-one-679092.jpg",
-      "created_at":"2025-07-19T16:58:30.845+00:00"
+      "created_at": "2025-07-19T16:58:30.845+00:00"
     },
     {
       "id": "monitor_001",
@@ -128,9 +135,10 @@
       "color": "Black",
       "description": "Геймърски монитор 34-инчов дисплей, 2560x1440 (QHD), 144Hz, 1ms, извит VA панел, AMD FreeSync Premium.",
       "price": 580,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/samsung-lc34g55t-34-curved-va-1000r-165-hz-1-ms-mp-442425.jpg",
-      "created_at":"2025-08-06T16:58:30.845+00:00"
+      "created_at": "2025-08-06T16:58:30.845+00:00"
     },
     {
       "id": "monitor_002",
@@ -139,9 +147,10 @@
       "color": "Black/Red",
       "description": "Геймърски монитор 27'', Nano IPS панел, QHD резолюция, 180Hz, 1ms, NVIDIA G-Sync Compatible.",
       "price": 649,
+      "discount": 0,
       "featured": true,
       "imageUrl": "https://ardes.bg/uploads/original/lg-27g810a-b-ultragear-27-4k-ips-1ms-gtg-1000-1-40-702978.jpg",
-      "created_at":"2025-08-03T16:58:30.845+00:00"
+      "created_at": "2025-08-03T16:58:30.845+00:00"
     },
     {
       "id": "monitor_003",
@@ -150,9 +159,10 @@
       "color": "Black",
       "description": "Монитор за професионална работа, 27'', 4K UHD, IPS Black панел, 99% DCI-P3, USB-C с зарядно 90W.",
       "price": 949,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/monitor-dell-ultrasharp-u2725qe-27-3840x2160-4k-uh-627934.jpg",
-      "created_at":"2025-08-02T16:58:30.845+00:00"
+      "created_at": "2025-08-02T16:58:30.845+00:00"
     },
     {
       "id": "monitor_004",
@@ -160,10 +170,11 @@
       "name": "ASUS TUF Gaming VG249Q",
       "color": "Black",
       "description": "Бюджетен Геймърски монитор, 23.8'', Full HD, 144Hz, 1ms, IPS панел, AMD FreeSync.",
-      "price": 120.00,
+      "price": 120,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/23-8-asus-tuf-gaming-vg249q3a-679866.jpg",
-      "created_at":"2025-02-02T16:58:30.845+00:00"
+      "created_at": "2025-02-02T16:58:30.845+00:00"
     },
     {
       "id": "laptop_001",
@@ -171,10 +182,11 @@
       "name": "ASUS TUF Gaming F16",
       "color": "Mecha Gray",
       "description": "Гейминг лаптоп с 16-инчов дисплей 144Hz, Intel Core 5 210H, 16GB RAM, 512GB SSD, NVIDIA GeForce RTX 4050 6GB.",
-      "price": 1182.00,
+      "price": 1182,
+      "discount": 0,
       "featured": true,
       "imageUrl": "https://ardes.bg/uploads/original/asus-fx607-tuf-gaming-f16-535067.jpg",
-      "created_at":"2025-03-11T16:58:30.845+00:00"
+      "created_at": "2025-03-11T16:58:30.845+00:00"
     },
     {
       "id": "laptop_002",
@@ -183,9 +195,10 @@
       "color": "Arctic Grey",
       "description": "Универсален лаптоп за всекидневна работа, 15.6'', Intel Core i3-1215U, 8GB RAM, 512GB SSD.",
       "price": 599,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/lenovo-ideapad-slim-3-14-g10-633209.jpg",
-      "created_at":"2025-04-19T16:58:30.845+00:00"
+      "created_at": "2025-04-19T16:58:30.845+00:00"
     },
     {
       "id": "laptop_003",
@@ -194,9 +207,10 @@
       "color": "Midnight",
       "description": "Лек и мощен лаптоп с 13.6-инчов Liquid Retina дисплей, чип Apple M4, 8GB RAM, 256GB SSD.",
       "price": 1579,
+      "discount": 0,
       "featured": true,
       "imageUrl": "https://ardes.bg/uploads/original/apple-macbook-air-13-2025-m4-620426.jpg",
-      "created_at":"2025-06-29T16:58:30.845+00:00"
+      "created_at": "2025-06-29T16:58:30.845+00:00"
     },
     {
       "id": "laptop_004",
@@ -205,9 +219,10 @@
       "color": "Pure Silver",
       "description": "Бюджетен лаптоп , 17.3'', AMD Ryzen 5 7520U, 8GB RAM, 512GB SSD.",
       "price": 519,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/acer-aspire-a17-51m-630822.jpg",
-      "created_at":"2025-05-05T16:58:30.845+00:00"
+      "created_at": "2025-05-05T16:58:30.845+00:00"
     },
     {
       "id": "computer_001",
@@ -216,9 +231,10 @@
       "color": "Black",
       "description": "Настолен гейминг компютър с Intel Core i5-13400F, 16GB DDR5 RAM, 1TB SSD, NVIDIA GeForce RTX 4060 8GB.",
       "price": 1599,
+      "discount": 0,
       "featured": true,
       "imageUrl": "https://ardes.bg/uploads/original/ultimate-gear-the-conqueror-720219.jpg",
-      "created_at":"2025-01-09T16:58:30.845+00:00"
+      "created_at": "2025-01-09T16:58:30.845+00:00"
     },
     {
       "id": "computer_002",
@@ -227,9 +243,10 @@
       "color": "Silver",
       "description": "Компактен настолен компютър, чип Apple M4, 8GB RAM, 256GB SSD, без клавиатура и мишка.",
       "price": 929,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/apple-mac-mini-2024-588677.jpg",
-      "created_at":"2025-01-19T16:58:30.845+00:00"
+      "created_at": "2025-01-19T16:58:30.845+00:00"
     },
     {
       "id": "computer_003",
@@ -238,9 +255,10 @@
       "color": "Black",
       "description": "Настолен компютър за офис и дома, Intel Core i3-12100, 8GB RAM, 512GB SSD, без монитор.",
       "price": 429,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/dell-tower-ect1250-650576.jpg",
-      "created_at":"2025-01-29T16:58:30.845+00:00"
+      "created_at": "2025-01-29T16:58:30.845+00:00"
     },
     {
       "id": "computer_004",
@@ -249,9 +267,10 @@
       "color": "Black/Red",
       "description": "Мощен гейминг компютър, AMD Ryzen 7 7700X, 32GB DDR5 RAM, 2TB SSD, NVIDIA GeForce RTX 4070 Ti 12GB.",
       "price": 2849,
+      "discount": 0,
       "featured": true,
       "imageUrl": "https://ardes.bg/uploads/original/lenovo-thinkcentre-neo-55s-gen-6-697635.jpg",
-      "created_at":"2025-02-22T16:58:30.845+00:00"
+      "created_at": "2025-02-22T16:58:30.845+00:00"
     },
     {
       "id": "tv_001",
@@ -261,9 +280,9 @@
       "description": "42-инчов OLED телевизор с 4K резолюция, процесор a9 Gen5 AI, поддръжка на Dolby Vision/Atmos и G-SYNC за игри.",
       "price": 2499,
       "featured": true,
-      "discount":40,
+      "discount": 40,
       "imageUrl": "https://ardes.bg/uploads/original/lg-oled42c51la-42-uhd-oled-evo-4k-3840-x-2160-dvb-634755.jpg",
-      "created_at":"2025-01-23T16:58:30.845+00:00"
+      "created_at": "2025-01-23T16:58:30.845+00:00"
     },
     {
       "id": "tv_002",
@@ -272,9 +291,10 @@
       "color": "Titan Black",
       "description": "Телевизор с 50-инчов QLED дисплей, 4K резолюция, процесор Quantum Processor Lite, обектен звук OTS.",
       "price": 1399,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/samsung-qled-43q7f-108-cm-smart-4k-ultra-hd-50hz-m-643412.jpg",
-      "created_at":"2026-01-09T16:58:30.845+00:00"
+      "created_at": "2026-01-09T16:58:30.845+00:00"
     },
     {
       "id": "tv_003",
@@ -283,9 +303,10 @@
       "color": "Black",
       "description": "Бюджетен Smart TV с 55-инчов 4K дисплей, Android TV, гласов помощник Google Assistant.",
       "price": 429,
+      "discount": 0,
       "featured": false,
       "imageUrl": "https://ardes.bg/uploads/original/55-thomson-smart-qled-pro-tv-55-google-tv-3840-x-2-676141.jpg",
-      "created_at":"2026-02-01T16:58:30.845+00:00"
+      "created_at": "2026-02-01T16:58:30.845+00:00"
     },
     {
       "id": "tv_004",
@@ -294,9 +315,10 @@
       "color": "Black",
       "description": "Премиум OLED телевизор, 65'', 4K, с когнитивен процесор XR за реалистично изображение и звук.",
       "price": 2699,
+      "discount": 0,
       "featured": true,
       "imageUrl": "https://ardes.bg/uploads/original/43-sony-bravia-4k-ultra-hd-k-43s35-652608.jpg",
-      "created_at":"2026-03-03T16:58:30.845+00:00"
+      "created_at": "2026-03-03T16:58:30.845+00:00"
     }
   ]
 }

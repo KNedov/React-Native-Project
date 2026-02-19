@@ -5,7 +5,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -23,9 +22,12 @@
         "backgroundColor": "#ffffff",
         "userInterfaceStyle": "automatic"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.ReactNativeProject"
     },
-     "plugins": ["expo-system-ui"],
+    "plugins": [
+      "expo-system-ui"
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }

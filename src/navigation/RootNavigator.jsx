@@ -15,11 +15,9 @@ export default function RootNavigator() {
 
     return (
         <NavigationContainer theme={theme}>
-            <SafeAreaView style={{ flex: 1 }}>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                     <Stack.Screen name='TabNavigator' component={TabNavigator} />
                 </Stack.Navigator>
-            </SafeAreaView>
         </NavigationContainer>
     )
 }

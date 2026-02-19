@@ -20,7 +20,7 @@ export default function ProductCard({ id, name, description, price, imageUrl, on
                     />
 
 
-                    {discount &&
+                    {discount>0 &&
                         <View style={styles.badge}>
                             <Text style={styles.badgeText}>-{discount}%</Text>
                         </View>}

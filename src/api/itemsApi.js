@@ -14,6 +14,11 @@ export function getOne(itemId) {
     }
     return api.get(`/items/${itemId}`);
 }
+export async function create(item) {
+    const result = await api.post('/items', item);
+
+    return result.data;
+}
 
 export function getAllByCategoryId(categoryId) {
     if (!categoryId) {

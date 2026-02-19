@@ -18,7 +18,8 @@ export default function ThemeProvider({
             background: "#f5f5f5",
             backgroundCard:"#FFF",
             text: "#000000",
-            textCard:"#333"
+            textCard:"#333",
+            textCreate:"#6C6C6C",
         },
         fonts: Platform.select({
             ios: "San Francisco",
@@ -35,7 +36,8 @@ export default function ThemeProvider({
             background: "#121212",
             backgroundCard: "#1E293B",
             text: "#E0E0E0",
-            textCard:"#94A3B8"
+            textCard:"#94A3B8",
+            textCreate:"#6C6C6C",
         },
         fonts: Platform.select({
             ios: "San Francisco",
