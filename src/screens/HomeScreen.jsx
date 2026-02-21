@@ -32,13 +32,11 @@ export default function HomeScreen({navigation,route}) {
             try {
                 const categoryData = await categoryApi.getAll();
                 setCategories(categoryData.data);
-
-
-
                 const featuredData = await itemsApi.getFeatured();
                 setFeatured(featuredData.data)
                 const data = await itemsApi.getLast();
-                setLastItem(data);
+                setLastItem([data]);
+             
 
             } catch (error) {
                 alert('Cannot load data')
@@ -68,7 +66,7 @@ export default function HomeScreen({navigation,route}) {
     return (
 
         <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshHandler} />} >
-            <NewCard lastItem={lastItem} onPress={itemPressHandler} />
+            {lastItem.length>0?<NewCard lastItem={lastItem[0]} onPress={itemPressHandler} />:null}
 
             <View style={styles.section}>
                 <Text style={[styles.title,{color:theme.colors.text}]}>Categories</Text>

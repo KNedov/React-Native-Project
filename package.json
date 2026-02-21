@@ -10,6 +10,7 @@
     "server": "json-server --watch db.json --port 3001"
   },
   "dependencies": {
+    "@react-native-picker/picker": "2.11.1",
     "@react-navigation/bottom-tabs": "^7.12.0",
     "@react-navigation/native": "^7.1.28",
     "@react-navigation/native-stack": "^7.12.0",
@@ -19,8 +20,11 @@
     "expo-system-ui": "~6.0.9",
     "react": "19.1.0",
     "react-native": "0.81.5",
+    "react-native-gesture-handler": "~2.28.0",
+    "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "~5.6.0",
-    "react-native-screens": "~4.16.0"
+    "react-native-screens": "~4.16.0",
+    "react-native-worklets": "0.5.1"
   },
   "private": true,
   "devDependencies": {

@@ -27,6 +27,16 @@ export function getAllByCategoryId(categoryId) {
 
     return api.get(`/items?categoryId=${categoryId}`);
 }
+export async function deleteItem(itemId) {
+    if (!itemId) {
+        throw new Error('Cant Delete!');
+    }
+
+      const result = await api.delete(`/items/${itemId}`);
+
+
+    return result.data;
+}
 
 export function getFeatured() {
     return api.get('/items?featured=true');

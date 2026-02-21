@@ -9,11 +9,12 @@ const { width } = Dimensions.get('window');
 
 export default function DetailsScreen({
     route,
-    navigation,
+    
 }) {
     const [item, setItem] = useState([])
     const { theme } = useTheme()
     const { itemId } = route.params;
+    
 
 
     useEffect(() => {
