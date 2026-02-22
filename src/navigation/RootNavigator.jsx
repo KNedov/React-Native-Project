@@ -1,22 +1,29 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {useAuth} from "../contexts/auth/useAuth"
 import TabNavigator from "./TabNavigator";
+import AuthNavigator from "./AuthNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 import { useTheme } from "../hooks/useTheme";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Text } from "react-native";
-
-
-
-
+import {ActivityIndicator} from "react-native"
 
 export default function RootNavigator() {
     const Stack = createNativeStackNavigator();
-    const { theme } = useTheme()
+    const {theme}=useTheme()
+    const { isAuthenticated, isLoading } = useAuth();
+
+    if (isLoading) {
+        return (
+            <ActivityIndicator size="large" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />
+        );
+    }
 
     return (
         <NavigationContainer theme={theme}>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name='TabNavigator' component={TabNavigator} />
+                    {isAuthenticated
+                    ?<Stack.Screen name='TabNavigator' component={TabNavigator} />
+                    :<Stack.Screen name='Auth' component={AuthNavigator} />
+                    }
                 </Stack.Navigator>
         </NavigationContainer>
     )
