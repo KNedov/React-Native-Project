@@ -26,7 +26,12 @@
       "package": "com.anonymous.ReactNativeProject"
     },
     "plugins": [
-      "expo-system-ui"
+      "expo-system-ui",
+      "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
+        }
     ],
     "web": {
       "favicon": "./assets/favicon.png"
