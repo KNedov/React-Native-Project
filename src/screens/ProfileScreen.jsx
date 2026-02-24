@@ -15,6 +15,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../contexts/auth/useAuth';
 import { useTheme } from "../hooks/useTheme";
+import ProfileInfoCard from '../components/ProfileInfoCard';
+import MenuItemCard from '../components/MenuItemCard';
 
 export default function ProfileScreen ({ navigation })  {
     const { theme } = useTheme();
@@ -66,6 +68,20 @@ export default function ProfileScreen ({ navigation })  {
                     user={user}
                 />
                 <View style={styles.menuContainer}>
+                    <MenuItemCard
+                        cardLogo={'cart-outline'}
+                        cardName={'Shoping Cart'}
+                        context={'View and manage your items'}
+                        onPress={navigateToCart}
+                        counter={3}
+                    />
+                    <MenuItemCard
+                        cardLogo={'receipt-outline'}
+                        cardName={'My Orders'}
+                        context={'Track and view your orders'}
+                        onPress={() => navigation.navigate('Orders')}
+                        counter={2}
+                    />
                     <TouchableOpacity
                         style={[styles.logoutButton, { backgroundColor: theme.colors.card }]}
                         onPress={handleLogout}
