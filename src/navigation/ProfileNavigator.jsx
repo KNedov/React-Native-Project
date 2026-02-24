@@ -1,5 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import UserScreen from "../screens/UserScreen"
+import ProfileScreen from "../screens/ProfileScreen"
+
+
+
 
 export default function UserNavigator() {
     
@@ -8,7 +11,7 @@ export default function UserNavigator() {
 
     return(
         <Stack.Navigator>
-            <Stack.Screen name="User" component={UserScreen}/>
+            <Stack.Screen name="Profile" component={ProfileScreen}/>
         </Stack.Navigator>
     )
 }
