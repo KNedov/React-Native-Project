@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "start": "cross-env NODE_ENV=development expo start",
+    "android:go": "cross-env NODE_ENV=development expo start --android",
+    "ios:go": "cross-env NODE_ENV=development expo start --ios",
+    "android": "cross-env NODE_ENV=development expo run:android",
+    "ios": "cross-env NODE_ENV=development expo run:ios",
+    "web": "cross-env NODE_ENV=development expo start --web",
+    "prebuild": "cross-env NODE_ENV=production expo prebuild",
+    "build:apk": "cd android && gradlew assembleRelease",
     "server": "json-server --watch db.json --port 3001"
   },
   "dependencies": {
@@ -30,6 +34,7 @@
   },
   "private": true,
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "json-server": "^1.0.0-beta.5"
   }
 }
