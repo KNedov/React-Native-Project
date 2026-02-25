@@ -1,5 +1,3 @@
-
-
 import { useState } from 'react';
 import {
     View,
@@ -15,11 +13,14 @@ import {
 import { useTheme } from '../hooks/useTheme';
 import { Picker } from '@react-native-picker/picker';
 import { itemsApi } from '../api';
-
+import { useAuth } from '../contexts/auth/useAuth'
+import * as Crypto from 'expo-crypto';
+import { useInputRefs } from '../hooks/useInputRef'
 
 export default function AddScreen({ navigation }) {
-    const { theme } = useTheme()
-
+    const { theme } = useTheme();
+    const { user } = useAuth()
+    const { setRef, focusNextInput } = useInputRefs();
     const [formData, setFormData] = useState({
         name: '',
         color: '',
@@ -29,7 +30,6 @@ export default function AddScreen({ navigation }) {
         featured: false,
         imageUrl: '',
         categoryId: 'cat-1',
-
     });
 
     const categories = [
@@ -38,18 +38,14 @@ export default function AddScreen({ navigation }) {
         { categoryId: 'cat-3', title: 'Monitors', icon: 'tv-outline' },
         { categoryId: 'cat-4', title: 'Laptops', icon: 'laptop-outline' },
         { categoryId: 'cat-5', title: 'Computers', icon: 'journal-outline' },
-        { categoryId: 'cat-6', title: 'TVs', icon: 'tv-sharp' },
+        { categoryId: 'cat-6', title: 'Televisions', icon: 'tv-sharp' },
     ];
 
-
-
     const handleCreate = async () => {
-
         if (!formData.name || !formData.color || !formData.description || !formData.price) {
             Alert.alert('Грешка', 'Моля попълнете всички задължителни полета');
             return;
         }
-
 
         const newProduct = {
             ...formData,
@@ -57,7 +53,12 @@ export default function AddScreen({ navigation }) {
             discount: parseInt(formData.discount) || 0,
         };
 
-         await itemsApi.create(newProduct)
+        await itemsApi.create({
+            ...newProduct,
+            userId: user.id,
+            created_at: new Date().toISOString(),
+            id: Crypto.randomUUID()
+        });
         setFormData({
             name: '',
             color: '',
@@ -67,26 +68,40 @@ export default function AddScreen({ navigation }) {
             featured: false,
             imageUrl: '',
             categoryId: '',
+        });
 
-        })
         Alert.alert('Успех', 'Продуктът е създаден', [
             {
-                text: 'OK', onPress: () => navigation.navigate('HomeTab', {
-                    screen: 'Home',
-                    params: { refresh: true, timestamp: Date.now() }
+                text: 'OK', onPress: () => navigation.reset({
+                    index: 0,
+                    routes: [
+                        {
+                            name: 'HomeTab',
+                            params: { screen: 'Home', params: { refresh: true, timestamp: Date.now() } }
+                        }
+                    ]
                 })
             }
         ]);
     };
 
 
+    // const focusNextInput = (nextInputRef) => {
+    //     if (nextInputRef?.current) {
+    //         nextInputRef.current.focus();
+    //     }
+    // };
+
+
+    const handleLastInputSubmit = () => {
+        handleCreate();
+    };
 
     return (
-
-        <View style={[styles.container, { backgroundColor: theme.colors.backgroundColor }, { color: theme.colors.text }]}>
+        <View style={[styles.container, { backgroundColor: theme.colors.backgroundColor }]}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                 keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 110}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 110}
                 style={styles.flex}
             >
                 <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -96,11 +111,16 @@ export default function AddScreen({ navigation }) {
                     <View style={styles.field}>
                         <Text style={[styles.label, { color: theme.colors.textCard }]}>Name <Text style={styles.required}>*</Text></Text>
                         <TextInput
+
                             style={[styles.input, { backgroundColor: theme.colors.backgroundColor }, { color: theme.colors.text }]}
                             value={formData.name}
                             onChangeText={(text) => setFormData({ ...formData, name: text })}
-                            placeholder=" iPhone 17 Pro Max" a
+                            placeholder="iPhone 17 Pro Max"
                             placeholderTextColor={theme.colors.textCreate}
+                            returnKeyType="go"
+                            ref={setRef("nameInput")}
+                            onSubmitEditing={() => focusNextInput("imageInput")}
+
                         />
                     </View>
 
@@ -113,16 +133,27 @@ export default function AddScreen({ navigation }) {
                             onChangeText={(text) => setFormData({ ...formData, imageUrl: text })}
                             placeholder="Image URL"
                             placeholderTextColor={theme.colors.textCreate}
+                            returnKeyType="go"
+                            ref={setRef('imageInput')}
+                            onSubmitEditing={() => focusNextInput("colorInput")}
+
                         />
                     </View>
+
+
                     <View style={styles.field}>
                         <Text style={[styles.label, { color: theme.colors.textCard }]}>Color <Text style={styles.required}>*</Text></Text>
                         <TextInput
+
                             style={[styles.input, { backgroundColor: theme.colors.backgroundColor }, { color: theme.colors.text }]}
                             value={formData.color}
                             onChangeText={(text) => setFormData({ ...formData, color: text })}
                             placeholder="Gold, Black, Silver..."
                             placeholderTextColor={theme.colors.textCreate}
+                            returnKeyType="go"
+                            ref={setRef("colorInput")}
+                            onSubmitEditing={() => focusNextInput("descriptionInput")}
+
                         />
                     </View>
 
@@ -130,6 +161,7 @@ export default function AddScreen({ navigation }) {
                     <View style={styles.field}>
                         <Text style={[styles.label, { color: theme.colors.textCard }]}>Description <Text style={styles.required}>*</Text></Text>
                         <TextInput
+                            ref={setRef("descriptionInput")}
                             style={[styles.input, { backgroundColor: theme.colors.backgroundColor }, { color: theme.colors.text }, styles.textArea]}
                             value={formData.description}
                             onChangeText={(text) => setFormData({ ...formData, description: text })}
@@ -137,11 +169,11 @@ export default function AddScreen({ navigation }) {
                             placeholderTextColor={theme.colors.textCreate}
                             multiline
                             numberOfLines={4}
+
                         />
                     </View>
 
 
-                  
 
                     <View style={styles.field}>
                         <Text style={[styles.label, { color: theme.colors.textCard }]}>Category <Text style={styles.required}>*</Text></Text>
@@ -149,49 +181,52 @@ export default function AddScreen({ navigation }) {
                             <Picker
                                 selectedValue={formData.categoryId}
                                 onValueChange={(value) => setFormData({ ...formData, categoryId: value })}
-                                style={[styles.picker,{color:theme.colors.textCard,backgroundColor:theme.colors.backgroundColor}]}
+                                style={[styles.picker, { color: theme.colors.textCard, backgroundColor: theme.colors.backgroundColor }]}
                                 dropdownIconColor={theme.colors.text}
                             >
                                 {categories.map((category) => (
                                     <Picker.Item
-                                        key={category.id}
+                                        key={category.categoryId}
                                         label={category.title}
                                         value={category.categoryId}
-                                        color="#000000"
-
+                                        color={theme.colors.background}
+                                        style={{ backgroundColor: theme.colors.backgroundColor }}
                                     />
                                 ))}
                             </Picker>
                         </View>
                     </View>
+
+
+
                     <View style={styles.field}>
                         <Text style={[styles.label, { color: theme.colors.textCard }]}>Featured <Text style={styles.required}>*</Text></Text>
-                        <View style={[styles.pickerContainer,{backgroundColor: theme.colors.backgroundColor}]}>
+                        <View style={[styles.pickerContainer, { backgroundColor: theme.colors.backgroundColor }]}>
                             <Picker
                                 selectedValue={formData.featured}
                                 onValueChange={(value) => setFormData({ ...formData, featured: value })}
-                                style={[styles.picker,{color:theme.colors.textCard}]}
+                                style={[styles.picker, { color: theme.colors.textCard }]}
                                 dropdownIconColor={theme.colors.text}
                             >
                                 <Picker.Item
                                     key={1}
-                                    label={'false'}
+                                    label={'No'}
                                     value={false}
                                     color="#000000"
-
                                 />
                                 <Picker.Item
                                     key={2}
-                                    label={'true'}
+                                    label={'Yes'}
                                     value={true}
                                     color="#000000"
-
                                 />
                             </Picker>
                         </View>
                     </View>
 
-                      <View style={styles.row}>
+
+                    <View style={styles.row}>
+
                         <View style={[styles.field, styles.halfWidth]}>
                             <Text style={[styles.label, { color: theme.colors.textCard }]}>Price ($) <Text style={styles.required}>*</Text></Text>
                             <TextInput
@@ -201,8 +236,13 @@ export default function AddScreen({ navigation }) {
                                 placeholder="1449.00"
                                 placeholderTextColor={theme.colors.textCreate}
                                 keyboardType="decimal-pad"
+                                returnKeyType="next"
+                                ref={setRef("priceInput")}
+                                onSubmitEditing={() => focusNextInput("discountInput")}
+
                             />
                         </View>
+
 
                         <View style={[styles.field, styles.halfWidth]}>
                             <Text style={[styles.label, { color: theme.colors.textCard }]}>Discount (%)</Text>
@@ -213,6 +253,9 @@ export default function AddScreen({ navigation }) {
                                 placeholder="20"
                                 placeholderTextColor={theme.colors.textCreate}
                                 keyboardType="number-pad"
+                                returnKeyType="done"
+                                ref={setRef("discountInput")}
+                                onSubmitEditing={handleLastInputSubmit}
                             />
                         </View>
                     </View>
@@ -236,8 +279,7 @@ export default function AddScreen({ navigation }) {
                 </ScrollView>
             </KeyboardAvoidingView>
         </View>
-
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -322,7 +364,7 @@ const styles = StyleSheet.create({
         borderColor: '#333333',
         overflow: 'hidden',
     }, picker: {
-       
+
         height: 50,
     },
 });
