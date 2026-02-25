@@ -14,21 +14,24 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth/useAuth.js';
-import {useTheme} from "../../hooks/useTheme.js"
+import { useTheme } from "../../hooks/useTheme.js"
+import Toast from 'react-native-toast-message';
 
-const LoginScreen = ({ navigation }) => {
+export default function LoginScreen({ navigation }) {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
     const { theme } = useTheme()
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
-    const { login, isLoading, error, clearError,logout } = useAuth();
-  
+    const { login } = useAuth();
+
 
 
     const validateForm = () => {
+
         const newErrors = {};
 
         if (!formData.email) {
@@ -48,17 +51,28 @@ const LoginScreen = ({ navigation }) => {
     };
 
     const handleLogin = async () => {
-        clearError()
+
         if (!validateForm()) return;
 
 
         try {
-
+            setIsLoading(true)
             await login(formData.email, formData.password)
-            // await logout()
 
-        } catch (error) {
-            Alert.alert('Error', 'Unsuccessful login. Please check your email and password.');
+
+        } catch  {
+            
+            setIsLoading(false)
+            Toast.show({
+                type: 'error',
+                text1: 'Unsuccessful login. ',
+                text2: 'Please check your email and password.'
+
+            });
+
+
+        } finally {
+
         }
     };
 
@@ -66,7 +80,7 @@ const LoginScreen = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                 keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 100}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 100}
                 style={styles.keyboardView}
             >
                 <ScrollView
@@ -77,28 +91,23 @@ const LoginScreen = ({ navigation }) => {
                     <View style={styles.header}>
                         <View style={[styles.logoContainer, { backgroundColor: theme.colors.background }]}>
                             <Ionicons name="person-circle-outline" size={60} color="#007AFF" />
-                          
+
                         </View>
                         <Text style={[styles.title, { color: theme.colors.textCard }]}>Welcome !</Text>
                         <Text style={[styles.subtitle, { color: theme.colors.textCard }]}>Login to your account</Text>
                     </View>
 
-                    {error && (
-                        <View style={styles.errorBanner}>
-                            <Ionicons name="alert-circle" size={20} color="#ef4444" />
-                            <Text style={styles.errorBannerText}>{error}</Text>
-                        </View>
-                    )}
+
 
 
                     <View style={styles.form}>
 
                         <View style={styles.inputContainer}>
-                            <Text style={[styles.label, { color: theme.colors.textCard}]}>Email</Text>
+                            <Text style={[styles.label, { color: theme.colors.textCard }]}>Email</Text>
                             <View style={[
                                 styles.inputWrapper,
                                 errors.email && styles.inputWrapperError,
-                                {backgroundColor:theme.colors.background}
+                                { backgroundColor: theme.colors.background }
                             ]}>
                                 <Ionicons
                                     name="mail-outline"
@@ -107,7 +116,7 @@ const LoginScreen = ({ navigation }) => {
                                     style={styles.inputIcon}
                                 />
                                 <TextInput
-                                    style={[styles.input,{backgroundColor:theme.colors.background},{color:theme.colors.text}]}
+                                    style={[styles.input, { backgroundColor: theme.colors.background }, { color: theme.colors.text }]}
                                     placeholder="example@email.com"
                                     placeholderTextColor={theme.colors.textCard}
                                     value={formData.email}
@@ -133,7 +142,7 @@ const LoginScreen = ({ navigation }) => {
                             <View style={[
                                 styles.inputWrapper,
                                 errors.password && styles.inputWrapperError,
-                                {backgroundColor:theme.colors.background}
+                                { backgroundColor: theme.colors.background }
                             ]}>
                                 <Ionicons
                                     name="lock-closed-outline"
@@ -142,7 +151,7 @@ const LoginScreen = ({ navigation }) => {
                                     style={styles.inputIcon}
                                 />
                                 <TextInput
-                                    style={[styles.input,{backgroundColor:theme.colors.background},{color:theme.colors.text}]}
+                                    style={[styles.input, { backgroundColor: theme.colors.background }, { color: theme.colors.text }]}
                                     placeholder="********"
                                     placeholderTextColor={theme.colors.textCard}
                                     value={formData.password}
@@ -156,13 +165,13 @@ const LoginScreen = ({ navigation }) => {
                                 />
                                 <TouchableOpacity
                                     onPress={() => setShowPassword(!showPassword)}
-                                    style={[styles.eyeIcon,{backgroundColor:theme.colors.background}]}
+                                    style={[styles.eyeIcon, { backgroundColor: theme.colors.background }]}
                                 >
                                     <Ionicons
                                         name={showPassword ? "eye-off-outline" : "eye-outline"}
                                         size={20}
                                         color="#6C6C6C"
-                                       
+
                                     />
                                 </TouchableOpacity>
                             </View>
@@ -194,6 +203,7 @@ const LoginScreen = ({ navigation }) => {
 
                 </ScrollView>
             </KeyboardAvoidingView>
+            <Toast />
         </SafeAreaView>
     );
 };
@@ -201,7 +211,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        
+
     },
     keyboardView: {
         flex: 1,
@@ -357,4 +367,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginScreen;

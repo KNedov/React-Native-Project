@@ -14,7 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth/useAuth.js';
-import {useTheme} from "../../hooks/useTheme.js"
+import { useTheme } from "../../hooks/useTheme.js"
 
 const RegisterScreen = ({ navigation }) => {
     const [formData, setFormData] = useState({
@@ -23,37 +23,34 @@ const RegisterScreen = ({ navigation }) => {
         password: '',
         confirmPassword: '',
     });
-    const {theme}=useTheme()
+    const { theme } = useTheme()
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errors, setErrors] = useState({});
     const { register, isLoading, error, clearError } = useAuth();
 
-  
     const validateForm = () => {
         const newErrors = {};
 
-  
         if (!formData.name.trim()) {
             newErrors.name = 'Name is Required !';
         } else if (formData.name.length < 2) {
             newErrors.name = 'The name must be at least 2 characters long !';
         }
 
-   
         if (!formData.email) {
             newErrors.email = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
             newErrors.email = 'Invalid email address !';
         }
 
-      
+
         if (!formData.password) {
             newErrors.password = 'Password is required !';
         } else if (formData.password.length < 6) {
             newErrors.password = 'The password must be at least 6 characters long';
-        } 
-       
+        }
+
         if (!formData.confirmPassword) {
             newErrors.confirmPassword = 'Please confirm the password';
         } else if (formData.password !== formData.confirmPassword) {
@@ -66,13 +63,13 @@ const RegisterScreen = ({ navigation }) => {
 
     const handleRegister = async () => {
 
-         clearError();
+        clearError();
         if (!validateForm()) return;
 
         try {
-            
-             await register(formData.email, formData.password, formData.name);
-          
+
+            await register(formData.email, formData.password, formData.name);
+
         } catch (error) {
             Alert.alert(
                 'Error',
@@ -82,7 +79,7 @@ const RegisterScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={[styles.container,{backgroundColor:theme.colors.background},{color:theme.colors.background}]}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }, { color: theme.colors.background }]}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 100}
@@ -93,27 +90,27 @@ const RegisterScreen = ({ navigation }) => {
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps='handled'
                 >
-                   
+
                     <View style={styles.header}>
-                        <View style={[styles.logoContainer,{backgroundColor:theme.colors.background}]}>
+                        <View style={[styles.logoContainer, { backgroundColor: theme.colors.background }]}>
                             <Ionicons name="person-add" size={50} color="#007AFF" />
                         </View>
-                        <Text style={[styles.title,{color:theme.colors.text}]}>Create Account</Text>
-                        <Text style={[styles.subtitle,,{color:theme.colors.text}]}>
+                        <Text style={[styles.title, { color: theme.colors.text }]}>Create Account</Text>
+                        <Text style={[styles.subtitle, , { color: theme.colors.text }]}>
                             Sign up to continue
                         </Text>
                     </View>
 
-                  
+
                     <View style={styles.form}>
-                      
+
                         <View style={styles.inputContainer}>
-                            <Text style={[styles.label,{color:theme.colors.text}]}>Name *</Text>
+                            <Text style={[styles.label, { color: theme.colors.text }]}>Name *</Text>
                             <View style={[
                                 styles.inputWrapper,
                                 errors.name && styles.inputWrapperError,
-                                {backgroundColor:theme.colors.background},
-                                
+                                { backgroundColor: theme.colors.background },
+
                             ]}>
                                 <Ionicons
                                     name="person-outline"
@@ -122,7 +119,7 @@ const RegisterScreen = ({ navigation }) => {
                                     style={styles.inputIcon}
                                 />
                                 <TextInput
-                                    style={[styles.input,{color:theme.colors.text}]}
+                                    style={[styles.input, { color: theme.colors.text }]}
                                     placeholder="Ivan Ivanov"
                                     placeholderTextColor="#6C6C6C"
                                     value={formData.name}
@@ -139,13 +136,13 @@ const RegisterScreen = ({ navigation }) => {
                             )}
                         </View>
 
-                     
+
                         <View style={styles.inputContainer}>
-                            <Text style={[styles.label,{color:theme.colors.text}]}>Email *</Text>
+                            <Text style={[styles.label, { color: theme.colors.text }]}>Email *</Text>
                             <View style={[
                                 styles.inputWrapper,
                                 errors.email && styles.inputWrapperError,
-                                {backgroundColor:theme.colors.background}
+                                { backgroundColor: theme.colors.background }
                             ]}>
                                 <Ionicons
                                     name="mail-outline"
@@ -154,7 +151,7 @@ const RegisterScreen = ({ navigation }) => {
                                     style={styles.inputIcon}
                                 />
                                 <TextInput
-                                    style={[styles.input,{color:theme.colors.text}]}
+                                    style={[styles.input, { color: theme.colors.text }]}
                                     placeholder="example@email.com"
                                     placeholderTextColor="#6C6C6C"
                                     value={formData.email}
@@ -173,13 +170,13 @@ const RegisterScreen = ({ navigation }) => {
                             )}
                         </View>
 
-                     
+
                         <View style={styles.inputContainer}>
-                            <Text style={[styles.label,{color:theme.colors.text}]}>Password *</Text>
+                            <Text style={[styles.label, { color: theme.colors.text }]}>Password *</Text>
                             <View style={[
                                 styles.inputWrapper,
                                 errors.password && styles.inputWrapperError,
-                                {backgroundColor:theme.colors.background}
+                                { backgroundColor: theme.colors.background }
                             ]}>
                                 <Ionicons
                                     name="lock-closed-outline"
@@ -188,7 +185,7 @@ const RegisterScreen = ({ navigation }) => {
                                     style={styles.inputIcon}
                                 />
                                 <TextInput
-                                    style={[styles.input,{color:theme.colors.text}]}
+                                    style={[styles.input, { color: theme.colors.text }]}
                                     placeholder="********"
                                     placeholderTextColor="#6C6C6C"
                                     value={formData.password}
@@ -216,14 +213,14 @@ const RegisterScreen = ({ navigation }) => {
                             )}
                         </View>
 
-                        
+
                         <View style={styles.inputContainer}>
-                            <Text style={[styles.label,{color:theme.colors.text}]}>Confirm password *</Text>
+                            <Text style={[styles.label, { color: theme.colors.text }]}>Confirm password *</Text>
                             <View style={[
                                 styles.inputWrapper,
                                 errors.confirmPassword && styles.inputWrapperError,
-                                {backgroundColor:theme.colors.background},
-                                
+                                { backgroundColor: theme.colors.background },
+
                             ]}>
                                 <Ionicons
                                     name="lock-closed-outline"
@@ -232,7 +229,7 @@ const RegisterScreen = ({ navigation }) => {
                                     style={styles.inputIcon}
                                 />
                                 <TextInput
-                                    style={[styles.input,{color:theme.colors.text}]}
+                                    style={[styles.input, { color: theme.colors.text }]}
                                     placeholder="********"
                                     placeholderTextColor="#6C6C6C"
                                     value={formData.confirmPassword}
@@ -260,9 +257,9 @@ const RegisterScreen = ({ navigation }) => {
                             )}
                         </View>
 
-                       
 
-                     
+
+
                         <TouchableOpacity
                             style={[styles.registerButton, isLoading && styles.registerButtonDisabled]}
                             onPress={handleRegister}
@@ -275,12 +272,19 @@ const RegisterScreen = ({ navigation }) => {
                             )}
                         </TouchableOpacity>
 
-                       
+
                     </View>
 
-          
+                    <View style={styles.loginContainer}>
+                        <Text style={styles.loginText}>Don't have an account? </Text>
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <Text style={styles.loginLink}>Login</Text>
+                        </TouchableOpacity>
+                    </View>
+
+
                     <Text style={styles.termsText}>
-                       By registering, you agree to{' '}
+                        By registering, you agree to{' '}
                         <Text style={styles.termsLink}>Terms and Conditions</Text> and{' '}
                         <Text style={styles.termsLink}>Privacy Policy</Text>
                     </Text>
@@ -293,7 +297,7 @@ const RegisterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-       
+
     },
     keyboardView: {
         flex: 1,

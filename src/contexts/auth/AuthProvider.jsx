@@ -44,7 +44,7 @@ export function AuthProvider({ children }) {
 
     const login = async (email, password) => {
         try {
-            setIsLoading(true);
+            
             const user = await authService.login(email, password);
 
             setAuthState({
@@ -55,9 +55,8 @@ export function AuthProvider({ children }) {
                 }
             });
         } catch (err) {
-            setError(err.message || 'An error occurred during login');
-        } finally {
-            setIsLoading(false);
+            
+            throw err
         }
     }
     const register = async (email, password, name) => {
