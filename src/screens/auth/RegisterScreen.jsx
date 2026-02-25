@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth/useAuth.js';
 import { useTheme } from "../../hooks/useTheme.js"
+import { useInputRefs } from '../../hooks/useInputRef.js';
 
 const RegisterScreen = ({ navigation }) => {
     const [formData, setFormData] = useState({
@@ -28,6 +29,7 @@ const RegisterScreen = ({ navigation }) => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errors, setErrors] = useState({});
     const { register, isLoading, error, clearError } = useAuth();
+    const { setRef, focusNextInput } = useInputRefs(); 
 
     const validateForm = () => {
         const newErrors = {};
@@ -105,7 +107,7 @@ const RegisterScreen = ({ navigation }) => {
                     <View style={styles.form}>
 
                         <View style={styles.inputContainer}>
-                            <Text style={[styles.label, { color: theme.colors.text }]}>Name *</Text>
+                            <Text style={[styles.label, { color: theme.colors.text }]}>Full Name *</Text>
                             <View style={[
                                 styles.inputWrapper,
                                 errors.name && styles.inputWrapperError,
@@ -119,6 +121,9 @@ const RegisterScreen = ({ navigation }) => {
                                     style={styles.inputIcon}
                                 />
                                 <TextInput
+                                    returnKeyType='go'
+                                    ref={setRef("fullNameInput")}
+                                    onSubmitEditing={() => focusNextInput("emailInput")}
                                     style={[styles.input, { color: theme.colors.text }]}
                                     placeholder="Ivan Ivanov"
                                     placeholderTextColor="#6C6C6C"
@@ -151,6 +156,9 @@ const RegisterScreen = ({ navigation }) => {
                                     style={styles.inputIcon}
                                 />
                                 <TextInput
+                                    returnKeyType='go'
+                                    ref={setRef("emailInput")}
+                                    onSubmitEditing={() => focusNextInput("passwordInput")}
                                     style={[styles.input, { color: theme.colors.text }]}
                                     placeholder="example@email.com"
                                     placeholderTextColor="#6C6C6C"
@@ -184,7 +192,10 @@ const RegisterScreen = ({ navigation }) => {
                                     color="#6C6C6C"
                                     style={styles.inputIcon}
                                 />
-                                <TextInput
+                                <TextInput 
+                                    returnKeyType='go'
+                                    ref={setRef("passwordInput")}
+                                    onSubmitEditing={() => focusNextInput("confirmPassInput")}
                                     style={[styles.input, { color: theme.colors.text }]}
                                     placeholder="********"
                                     placeholderTextColor="#6C6C6C"
@@ -229,6 +240,8 @@ const RegisterScreen = ({ navigation }) => {
                                     style={styles.inputIcon}
                                 />
                                 <TextInput
+                                    ref={setRef("confirmPassInput")}
+                                    onSubmitEditing={handleRegister}
                                     style={[styles.input, { color: theme.colors.text }]}
                                     placeholder="********"
                                     placeholderTextColor="#6C6C6C"

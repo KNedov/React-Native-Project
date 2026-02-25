@@ -8,7 +8,6 @@ import {
     KeyboardAvoidingView,
     Platform,
     ScrollView,
-    Alert,
     ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth/useAuth.js';
 import { useTheme } from "../../hooks/useTheme.js"
 import Toast from 'react-native-toast-message';
+import { useInputRefs } from '../../hooks/useInputRef.js';
 
 export default function LoginScreen({ navigation }) {
     const [formData, setFormData] = useState({
@@ -27,6 +27,7 @@ export default function LoginScreen({ navigation }) {
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const { login } = useAuth();
+    const { setRef, focusNextInput } = useInputRefs(); 
 
 
 
@@ -60,8 +61,8 @@ export default function LoginScreen({ navigation }) {
             await login(formData.email, formData.password)
 
 
-        } catch  {
-            
+        } catch {
+
             setIsLoading(false)
             Toast.show({
                 type: 'error',
@@ -129,6 +130,9 @@ export default function LoginScreen({ navigation }) {
                                     keyboardType="email-address"
                                     autoCapitalize="none"
                                     autoCorrect={false}
+                                    returnKeyType='go'
+                                    ref={setRef("emailInput")}
+                                    onSubmitEditing={() => focusNextInput("passwordInput")}
                                 />
                             </View>
                             {errors.email && (
@@ -155,6 +159,7 @@ export default function LoginScreen({ navigation }) {
                                     placeholder="********"
                                     placeholderTextColor={theme.colors.textCard}
                                     value={formData.password}
+                                    ref={setRef("passwordInput")}
                                     onChangeText={(text) => {
                                         setFormData({ ...formData, password: text });
                                         if (errors.password) {
@@ -162,6 +167,7 @@ export default function LoginScreen({ navigation }) {
                                         }
                                     }}
                                     secureTextEntry={!showPassword}
+                                    onSubmitEditing={handleLogin}
                                 />
                                 <TouchableOpacity
                                     onPress={() => setShowPassword(!showPassword)}
