@@ -1,9 +1,11 @@
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import { View } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import { scheduleOnRN } from 'react-native-worklets';
 import { Ionicons } from '@expo/vector-icons';
 import ItemCard from "./ItemCard";
+import {selectionAsync} from 'expo-haptics';
+
 
 export default function ItemCardWithGesture({
     item,
@@ -41,13 +43,13 @@ export default function ItemCardWithGesture({
         .activeOffsetX(-20)
         .onUpdate((event) => {
             positionX.value = event.translationX;
-        })
+            scheduleOnRN(selectionAsync)
+        })       
         .onEnd((event) => {
-            if (event.translationX < -300) {
+            if (event.translationX < -100) {
 
                 return scheduleOnRN(onDelete, item.id);
             }
-
             positionX.value = 0;
         });
 
