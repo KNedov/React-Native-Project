@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -9,6 +9,8 @@ import {
     Alert,
     KeyboardAvoidingView,
     Platform,
+    Switch,
+    Image
 } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { Picker } from '@react-native-picker/picker';
@@ -16,21 +18,43 @@ import { itemsApi } from '../api';
 import { useAuth } from '../contexts/auth/useAuth'
 import * as Crypto from 'expo-crypto';
 import { useInputRefs } from '../hooks/useInputRef'
+import ImagePickerButtons from '../components/ImagePickerButtons';
+import { useImagePick } from '../hooks/useImagePick';
+import { useFormValidation } from '../hooks/useFormValidation';
+import Toast from 'react-native-toast-message';
+
+
 
 export default function AddScreen({ navigation }) {
+
     const { theme } = useTheme();
     const { user } = useAuth()
     const { setRef, focusNextInput } = useInputRefs();
-    const [formData, setFormData] = useState({
-        name: '',
-        color: '',
-        description: '',
-        price: '',
-        discount: "0",
-        featured: false,
-        imageUrl: '',
-        categoryId: 'cat-1',
-    });
+    const [useImagePicker, setUseImagePicker] = useState(false);
+    const {
+        image,
+        loading,
+        pickFromGallery,
+        takePhoto,
+        resetImage
+    } = useImagePick()
+
+    const {
+        formData,
+        handleFieldChange,
+        resetForm,
+        errors,
+        validateProductForm,
+        clearError,
+        clearAllErrors
+    } = useFormValidation();
+
+    useEffect(() => {
+        if (image && useImagePicker) {
+            handleFieldChange('imageUrl', image.uri);
+        }
+    }, [image, useImagePicker]);
+
 
     const categories = [
         { categoryId: 'cat-1', title: 'Phones', icon: 'phone-portrait-outline' },
@@ -41,9 +65,13 @@ export default function AddScreen({ navigation }) {
         { categoryId: 'cat-6', title: 'Televisions', icon: 'tv-sharp' },
     ];
 
+
+
     const handleCreate = async () => {
-        if (!formData.name || !formData.color || !formData.description || !formData.price) {
-            Alert.alert('Грешка', 'Моля попълнете всички задължителни полета');
+        clearAllErrors();
+        const isValid = validateProductForm(formData, image);
+
+        if (!isValid) {
             return;
         }
 
@@ -59,38 +87,35 @@ export default function AddScreen({ navigation }) {
             created_at: new Date().toISOString(),
             id: Crypto.randomUUID()
         });
-        setFormData({
-            name: '',
-            color: '',
-            description: '',
-            price: '',
-            discount: "0",
-            featured: false,
-            imageUrl: '',
-            categoryId: '',
-        });
 
-        Alert.alert('Успех', 'Продуктът е създаден', [
-            {
-                text: 'OK', onPress: () => navigation.reset({
+        resetImage();
+        setUseImagePicker(false);
+
+        Toast.show({
+            type: 'success',
+            text1: 'Продуктът е създаден успешно',
+            position: 'top',
+            visibilityTime: 2000,
+            autoHide: true,
+            topOffset: 50,
+            onShow: () => {
+                navigation.reset({
                     index: 0,
                     routes: [
                         {
                             name: 'HomeTab',
-                            params: { screen: 'Home', params: { refresh: true, timestamp: Date.now() } }
+                            params: {
+                                screen: 'Home',
+                                params: { refresh: true, timestamp: Date.now() }
+                            }
                         }
                     ]
-                })
+                });
+
             }
-        ]);
+        });
+
     };
-
-
-    // const focusNextInput = (nextInputRef) => {
-    //     if (nextInputRef?.current) {
-    //         nextInputRef.current.focus();
-    //     }
-    // };
 
 
     const handleLastInputSubmit = () => {
@@ -112,9 +137,13 @@ export default function AddScreen({ navigation }) {
                         <Text style={[styles.label, { color: theme.colors.textCard }]}>Name <Text style={styles.required}>*</Text></Text>
                         <TextInput
 
-                            style={[styles.input, { backgroundColor: theme.colors.backgroundColor }, { color: theme.colors.text }]}
+                            style={[styles.input,
+                            { backgroundColor: theme.colors.backgroundColor },
+                            { color: theme.colors.text },
+                            errors.name && styles.inputError
+                            ]}
                             value={formData.name}
-                            onChangeText={(text) => setFormData({ ...formData, name: text })}
+                            onChangeText={(text) => handleFieldChange('name', text)}
                             placeholder="iPhone 17 Pro Max"
                             placeholderTextColor={theme.colors.textCreate}
                             returnKeyType="go"
@@ -122,22 +151,96 @@ export default function AddScreen({ navigation }) {
                             onSubmitEditing={() => focusNextInput("imageInput")}
 
                         />
+                        {errors.name && (
+                            <Text style={styles.errorText}>{errors.name}</Text>
+                        )}
+                    </View>
+
+                    <View style={styles.field}>
+                        <Text style={[styles.label, { color: theme.colors.textCard }]}>
+                            Image Source
+                        </Text>
+                        <View style={styles.toggleRow}>
+                            <Text style={{ color: theme.colors.text }}>
+                                URL
+                            </Text>
+                            <Switch
+                                value={useImagePicker}
+                                onValueChange={setUseImagePicker}
+                            />
+                            <Text style={{ color: theme.colors.text }}>
+                                Camera/Gallery
+                            </Text>
+                        </View>
                     </View>
 
 
-                    <View style={styles.field}>
-                        <Text style={[styles.label, { color: theme.colors.textCard }]}>Image <Text style={styles.required}>*</Text></Text>
-                        <TextInput
-                            style={[styles.input, { backgroundColor: theme.colors.backgroundColor }, { color: theme.colors.text }]}
-                            value={formData.imageUrl}
-                            onChangeText={(text) => setFormData({ ...formData, imageUrl: text })}
-                            placeholder="Image URL"
-                            placeholderTextColor={theme.colors.textCreate}
-                            returnKeyType="go"
-                            ref={setRef('imageInput')}
-                            onSubmitEditing={() => focusNextInput("colorInput")}
+                    {!useImagePicker && (
+                        <View style={styles.field}>
+                            <Text style={[styles.label, { color: theme.colors.textCard }]}>
+                                Image *
+                            </Text>
+                            <TextInput
+                                style={[
+                                    styles.input,
+                                    { backgroundColor: theme.colors.backgroundColor },
+                                    { color: theme.colors.text },
+                                    errors.imageUrl && styles.inputError
+                                ]}
+                                value={formData.imageUrl}
+                                onChangeText={(text) => handleFieldChange('imageUrl', text)}
+                                placeholder="Image URL"
+                                placeholderTextColor={theme.colors.textCreate}
+                            />
+                            {errors.imageUrl && (
+                                <Text style={styles.errorText}>{errors.imageUrl}</Text>
+                            )}
 
-                        />
+                        </View>
+
+                    )}
+                    <View style={styles.field}>
+                        {useImagePicker && (
+                            <ImagePickerButtons
+                                onGalleryPress={async () => {
+                                    const selectedImage = await pickFromGallery();
+                                    if (selectedImage) {
+                                        if (errors.image) clearError('image');
+                                        if (errors.imageSource) clearError('imageSource');
+                                    }
+                                }}
+                                onCameraPress={async () => {
+                                    const takenPhoto = await takePhoto();
+                                    if (takenPhoto) {
+                                        if (errors.image) clearError('image');
+                                        if (errors.imageSource) clearError('imageSource');
+                                    }
+                                }}
+                                loading={loading}
+                                error={errors.image}
+                                onClearError={() => clearError('image')}
+                            />
+                        )}
+
+                        {image && (
+                            <View style={styles.imagePreviewContainer}>
+                                <Image
+                                    source={{ uri: image.uri }}
+                                    style={styles.preview}
+                                />
+                                <TouchableOpacity
+                                    style={styles.removeImageButton}
+                                    onPress={() => {
+                                        resetImage();
+                                        handleFieldChange('imageUrl', '');
+                                        if (errors.image) clearError('image');
+                                        if (errors.imageSource) clearError('imageSource');
+                                    }}
+                                >
+                                    <Text style={styles.removeImageText}>✕ Remove</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
                     </View>
 
 
@@ -145,9 +248,15 @@ export default function AddScreen({ navigation }) {
                         <Text style={[styles.label, { color: theme.colors.textCard }]}>Color <Text style={styles.required}>*</Text></Text>
                         <TextInput
 
-                            style={[styles.input, { backgroundColor: theme.colors.backgroundColor }, { color: theme.colors.text }]}
+                            style=
+                            {[
+                                styles.input,
+                                { backgroundColor: theme.colors.backgroundColor },
+                                { color: theme.colors.text },
+                                errors.color && styles.inputError
+                            ]}
                             value={formData.color}
-                            onChangeText={(text) => setFormData({ ...formData, color: text })}
+                            onChangeText={(text) => handleFieldChange('color', text)}
                             placeholder="Gold, Black, Silver..."
                             placeholderTextColor={theme.colors.textCreate}
                             returnKeyType="go"
@@ -155,6 +264,9 @@ export default function AddScreen({ navigation }) {
                             onSubmitEditing={() => focusNextInput("descriptionInput")}
 
                         />
+                        {errors.color && (
+                            <Text style={styles.errorText}>{errors.color}</Text>
+                        )}
                     </View>
 
 
@@ -162,15 +274,25 @@ export default function AddScreen({ navigation }) {
                         <Text style={[styles.label, { color: theme.colors.textCard }]}>Description <Text style={styles.required}>*</Text></Text>
                         <TextInput
                             ref={setRef("descriptionInput")}
-                            style={[styles.input, { backgroundColor: theme.colors.backgroundColor }, { color: theme.colors.text }, styles.textArea]}
+                            style=
+                            {[
+                                styles.input,
+                                { backgroundColor: theme.colors.backgroundColor },
+                                { color: theme.colors.text },
+                                styles.textArea,
+                                errors.description && styles.inputError
+                            ]}
                             value={formData.description}
-                            onChangeText={(text) => setFormData({ ...formData, description: text })}
+                            onChangeText={(text) => handleFieldChange('description', text)}
                             placeholder="Detailed product description..."
                             placeholderTextColor={theme.colors.textCreate}
                             multiline
                             numberOfLines={4}
 
                         />
+                        {errors.description && (
+                            <Text style={styles.errorText}>{errors.description}</Text>
+                        )}
                     </View>
 
 
@@ -180,7 +302,7 @@ export default function AddScreen({ navigation }) {
                         <View style={[styles.pickerContainer, theme.colors.backgroundColor]}>
                             <Picker
                                 selectedValue={formData.categoryId}
-                                onValueChange={(value) => setFormData({ ...formData, categoryId: value })}
+                                onValueChange={(value) => handleFieldChange('categoryId', value)}
                                 style={[styles.picker, { color: theme.colors.textCard, backgroundColor: theme.colors.backgroundColor }]}
                                 dropdownIconColor={theme.colors.text}
                             >
@@ -189,7 +311,7 @@ export default function AddScreen({ navigation }) {
                                         key={category.categoryId}
                                         label={category.title}
                                         value={category.categoryId}
-                                        color={theme.colors.background}
+                                        color="#000000"
                                         style={{ backgroundColor: theme.colors.backgroundColor }}
                                     />
                                 ))}
@@ -204,7 +326,7 @@ export default function AddScreen({ navigation }) {
                         <View style={[styles.pickerContainer, { backgroundColor: theme.colors.backgroundColor }]}>
                             <Picker
                                 selectedValue={formData.featured}
-                                onValueChange={(value) => setFormData({ ...formData, featured: value })}
+                                onValueChange={(value) => handleFieldChange('featured', value)}
                                 style={[styles.picker, { color: theme.colors.textCard }]}
                                 dropdownIconColor={theme.colors.text}
                             >
@@ -230,9 +352,15 @@ export default function AddScreen({ navigation }) {
                         <View style={[styles.field, styles.halfWidth]}>
                             <Text style={[styles.label, { color: theme.colors.textCard }]}>Price ($) <Text style={styles.required}>*</Text></Text>
                             <TextInput
-                                style={[styles.input, { backgroundColor: theme.colors.backgroundColor }, { color: theme.colors.text }]}
+                                style=
+                                {[
+                                    styles.input,
+                                    { backgroundColor: theme.colors.backgroundColor },
+                                    { color: theme.colors.text },
+                                    errors.price && styles.inputError
+                                ]}
                                 value={formData.price}
-                                onChangeText={(text) => setFormData({ ...formData, price: text })}
+                                onChangeText={(text) => handleFieldChange('price', text)}
                                 placeholder="1449.00"
                                 placeholderTextColor={theme.colors.textCreate}
                                 keyboardType="decimal-pad"
@@ -241,15 +369,24 @@ export default function AddScreen({ navigation }) {
                                 onSubmitEditing={() => focusNextInput("discountInput")}
 
                             />
+                            {errors.price && (
+                                <Text style={styles.errorText}>{errors.price}</Text>
+                            )}
                         </View>
 
 
                         <View style={[styles.field, styles.halfWidth]}>
                             <Text style={[styles.label, { color: theme.colors.textCard }]}>Discount (%)</Text>
                             <TextInput
-                                style={[styles.input, { backgroundColor: theme.colors.backgroundColor }, { color: theme.colors.text }]}
+                                style=
+                                {[
+                                    styles.input,
+                                    { backgroundColor: theme.colors.backgroundColor },
+                                    { color: theme.colors.text },
+                                    errors.discount && styles.inputError
+                                ]}
                                 value={formData.discount}
-                                onChangeText={(text) => setFormData({ ...formData, discount: text })}
+                                onChangeText={(text) => handleFieldChange('discount', text)}
                                 placeholder="20"
                                 placeholderTextColor={theme.colors.textCreate}
                                 keyboardType="number-pad"
@@ -257,6 +394,9 @@ export default function AddScreen({ navigation }) {
                                 ref={setRef("discountInput")}
                                 onSubmitEditing={handleLastInputSubmit}
                             />
+                            {errors.discount && (
+                                <Text style={styles.errorText}>{errors.discount}</Text>
+                            )}
                         </View>
                     </View>
 
@@ -367,4 +507,42 @@ const styles = StyleSheet.create({
 
         height: 50,
     },
+
+    toggleRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10
+    },
+
+    imageButtons: {
+        flexDirection: 'row',
+        gap: 10
+    },
+
+    imageButton: {
+        flex: 1,
+        backgroundColor: '#007AFF',
+        padding: 12,
+        borderRadius: 8,
+        alignItems: 'center'
+    },
+
+    preview: {
+        width: '100%',
+        height: 200,
+        marginTop: 10,
+        borderRadius: 10
+    },
+    errorText: {
+        color: '#FF3B30',
+        fontSize: 12,
+        marginTop: 4,
+        marginLeft: 4,
+        fontWeight: '500',
+    },
+    inputError: {
+        borderColor: '#FF3B30',
+        borderWidth: 1.5,
+    },
+
 });

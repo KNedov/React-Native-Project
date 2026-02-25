@@ -209,7 +209,7 @@ export default function LoginScreen({ navigation }) {
 
                 </ScrollView>
             </KeyboardAvoidingView>
-            <Toast />
+            
         </SafeAreaView>
     );
 };

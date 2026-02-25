@@ -26,7 +26,14 @@
       "package": "com.anonymous.ReactNativeProject"
     },
     "plugins": [
-      "expo-system-ui"
+      "expo-system-ui",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+
    
     ],
     "web": {
