@@ -10,6 +10,8 @@
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },"experiments": {
+      "reactCompiler": true
     },
     "userInterfaceStyle": "automatic",
     "ios": {
