@@ -1,4 +1,3 @@
-
 import { initializeApp } from "firebase/app";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

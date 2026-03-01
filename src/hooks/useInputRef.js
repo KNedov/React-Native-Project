@@ -3,12 +3,10 @@ import { useRef } from "react";
 export function useInputRefs() {
   const refs = useRef({});
 
-  // callback за ref
   const setRef = (key) => (el) => {
     refs.current[key] = el;
   };
 
-  // функция за фокус на следващия input
   const focusNextInput = (key) => {
     const input = refs.current[key];
     if (input && input.focus) {

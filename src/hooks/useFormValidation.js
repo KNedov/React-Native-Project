@@ -8,29 +8,43 @@ const initialFormState = {
     discount: "",
     featured: false,
     imageUrl: "",
-    categoryId: "cat-1",
+    categoryId: "Phones",
 };
 
 export const useFormValidation = (initialErrors = {}) => {
     const [formData, setFormData] = useState(initialFormState);
     const [errors, setErrors] = useState(initialErrors);
 
-    const handleFieldChange = useCallback(
-        (field, value) => {
-            setFormData((prev) => ({ ...prev, [field]: value }));
-            if (errors[field]) {
-                setErrors((prev) => {
-                    const newErrors = { ...prev };
-                    delete newErrors[field];
-                    return newErrors;
-                });
-            }
-        },
-        [errors],
-    );
+    const handleFieldChange = useCallback((field, value) => {
+        setFormData((prev) => ({ ...prev, [field]: value }));
+
+        setErrors((prev) => {
+            if (!prev[field]) return prev;
+            const newErrors = { ...prev };
+            delete newErrors[field];
+            return newErrors;
+        });
+    }, []);
 
     const resetForm = useCallback(() => {
         setFormData(initialFormState);
+        setErrors({});
+    }, []);
+
+      const loadProductForm = useCallback((product) => {
+        if (!product) return;
+        
+        setFormData({
+            name: product.name || '',
+            color: product.color || '',
+            description: product.description || '',
+            price: product.price?.toString() || '',
+            discount: product.discount?.toString() || '0',
+            featured: product.featured || false,
+            imageUrl: product.imageUrl || '',
+            categoryId: product.categoryId || 'Phones',
+        });
+        
         setErrors({});
     }, []);
 
@@ -69,25 +83,21 @@ export const useFormValidation = (initialErrors = {}) => {
             newErrors.price = "Price must be greater than 0";
         }
 
-        if (formData.discount && formData.discount !== "0") {
-           
-            const discountFloat = parseFloat(formData.discount);
-            const discountInt = parseInt(formData.discount, 10);
+       
+        const discountValue = formData.discount?.trim() || "";
 
-            
+        if (!discountValue) {
+            newErrors.discount = "Discount is required";
+        } else {
+            const discountFloat = parseFloat(discountValue);
+            const discountInt = parseInt(discountValue, 10);
+
             if (isNaN(discountFloat)) {
                 newErrors.discount = "Discount must be a valid number";
-            }
-            else if(discountFloat===''){
-                newErrors.discount="discount is required"
-            }
-            
-            else if (discountFloat !== discountInt) {
+            } else if (discountFloat !== discountInt) {
                 newErrors.discount =
                     "Discount must be a whole number (no decimals)";
-            }
-            
-            else if (discountInt < 0 || discountInt > 100) {
+            } else if (discountInt < 0 || discountInt > 100) {
                 newErrors.discount = "Discount must be between 0 and 100";
             }
         }
@@ -117,28 +127,15 @@ export const useFormValidation = (initialErrors = {}) => {
         setErrors({});
     }, []);
 
-    const getFieldError = useCallback(
-        (fieldName) => {
-            return errors[fieldName];
-        },
-        [errors],
-    );
-
-    const hasErrors = useCallback(() => {
-        return Object.keys(errors).length > 0;
-    }, [errors]);
-
     return {
         formData,
-        setFormData,
         handleFieldChange,
         resetForm,
-
+        loadProductForm,
         errors,
         validateProductForm,
         clearError,
         clearAllErrors,
-        getFieldError,
-        hasErrors,
+      
     };
 };
