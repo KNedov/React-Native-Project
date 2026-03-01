@@ -1,27 +1,27 @@
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 
-export default function NewCard({ lastItem, onPress, }) {
-    const{theme}=useTheme()
+export default function NewCard({ lastProduct, onPress, }) {
+    const { theme } = useTheme()
     return (
-        <TouchableOpacity onPress={() => onPress(lastItem.id)} style={[styles.card,{backgroundColor:theme.colors.backgroundCard}]}>
-            <View style={{ alignItems: 'flex-end', position:'absolute', top: 5, right: '5'}}>
-                        <Text style={styles.newLabel} >New</Text>
-                    </View>
+        <TouchableOpacity onPress={() => onPress(lastProduct.categoryId)} style={[styles.card, { backgroundColor: theme.colors.backgroundCard }]}>
+            <View style={{ alignItems: 'flex-end', position: 'absolute', top: 5, right: '5' }}>
+                <Text style={styles.newLabel} >New</Text>
+            </View>
 
 
-            <Image source={{ uri: lastItem.imageUrl }}
+            <Image source={{ uri: lastProduct.imageUrl }}
                 style={styles.image}
                 resizeMode='contain' />
             <View >
 
-                <View style={{ justifyContent: 'flex-end',alignItems:'flex-end', height: '100%', paddingTop: 6 }}>
+                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', height: '100%', paddingTop: 6 }}>
 
-                    
+
 
                     <View style={{ paddingBottom: 30, gap: 2 }}>
                         <Text style={{ fontSize: 12, color: theme.colors.textCard }}>Introducing</Text>
-                        <Text style={{ fontSize: 16, fontWeight: 'bold', color:theme.colors.textCard }}>{lastItem.name}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: theme.colors.textCard }}>{lastProduct.name}</Text>
 
                         <View style={{ backgroundColor: 'gray', width: 80, alignItems: 'center', justifyContent: 'center', paddingTop: 6, paddingBottom: 6, borderRadius: 6, marginTop: 10 }}>
                             <Text style={{ fontSize: 16, color: "white" }} >Buy Now!</Text>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         fontWeight: 'bold',
-        position:'absolute',
+        position: 'absolute',
         top: 5,
         right: 5
     },

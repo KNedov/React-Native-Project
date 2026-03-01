@@ -40,11 +40,11 @@ export default function ProductCard({ id, name, description, price, imageUrl, on
                     )}
 
                     {discount ? <View style={styles.priceContainer}>
-                        <Text style={styles.price}>${price.toFixed(2) - (price.toFixed(2) * discount / 100)}</Text>
+                        <Text style={styles.price}>${price?.toFixed(2) - (price?.toFixed(2) * discount / 100)}</Text>
                         <Text style={styles.originalPrice}>${(price).toFixed(2)}</Text>
                     </View> :
                         <View style={styles.priceContainer}>
-                            <Text style={styles.price}>${price.toFixed(2)}</Text>
+                            <Text style={styles.price}>${price?.toFixed(2)}</Text>
 
                         </View>}
 

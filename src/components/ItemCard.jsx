@@ -73,11 +73,11 @@ export default function ItemCard({
 
                 <View style={styles.priceContainer}>
                     <Text style={[styles.price, { color: theme.colors.primary }]}>
-                        ${finalPrice.toFixed(2)}
+                        ${finalPrice?.toFixed(2)}
                     </Text>
                     {discount > 0 && (
                         <Text style={[styles.originalPrice, { color: theme.colors.textDisabled }]}>
-                            ${price.toFixed(2)}
+                            ${price?.toFixed(2)}
                         </Text>
                     )}
                 </View>
