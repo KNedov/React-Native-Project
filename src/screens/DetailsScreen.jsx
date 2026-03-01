@@ -3,63 +3,45 @@
 import { Text, StyleSheet, StatusBar, ScrollView, View, Image } from "react-native";
 import { Dimensions } from 'react-native';
 import { useTheme } from "../hooks/useTheme";
-import { itemsApi } from '../api'
-import { useEffect, useState } from "react";
+import { useProducts } from "../contexts/products/useProducts";
+import EmptyDetailsCard from "../components/EmtyDetailsCard";
 const { width } = Dimensions.get('window');
 
 export default function DetailsScreen({
     route,
-    
+    navigation
 }) {
-    const [item, setItem] = useState([])
     const { theme } = useTheme()
-    const { itemId } = route.params;
-    
-
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-
-                const data = await itemsApi.getOne(itemId)
-                setItem(data.data);
-
-            } catch (error) {
-                alert('Cannot load data')
-            }
-        }
-
-        fetchData()
-    }, [])
-
-    const originalPrice = item.price;
-    const discountPercentage = item.discount || 0;
-
+    const { productId } = route.params;
+    const { getProductById } = useProducts()
+    const product = getProductById(productId)
+    const originalPrice = product?.price;
+    const discountPercentage = product.discount || 0;
 
     return (
         <>
-            <StatusBar  backgroundColor={theme.colors.backgroundColor} />
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+            <StatusBar backgroundColor={theme.colors.backgroundColor} />
+            {product ? <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 
 
                 <View style={styles.imageContainer}>
                     <Image
-                        source={{ uri: item.imageUrl }}
+                        source={{ uri: product.imageUrl }}
                         style={styles.image}
                         resizeMode="stretch"
                     />
                     {discountPercentage > 0 && (
                         <View style={styles.discountBadge}>
-                            <Text style={styles.discountText}>-{item.discount}%</Text>
+                            <Text style={styles.discountText}>-{product.discount}%</Text>
                         </View>
                     )}
                 </View>
 
 
                 <View style={styles.detailsCard}>
-                    <Text style={styles.productName}>{item.name}</Text>
+                    <Text style={styles.productName}>{product.name}</Text>
                     <View style={styles.colorContainer}>
-                        <Text style={styles.colorText}>Color: {item.color}</Text>
+                        <Text style={styles.colorText}>Color: {product.color}</Text>
                     </View>
 
 
@@ -70,12 +52,12 @@ export default function DetailsScreen({
                                     {(originalPrice * (1 - discountPercentage / 100))?.toFixed(2)} лв.
                                 </Text>
                                 <Text style={styles.originalPrice}>
-                                    {(item.price)?.toFixed(2)} лв.
+                                    {(product.price)?.toFixed(2)} лв.
                                 </Text>
                             </>
                         ) : (
                             <Text style={styles.price}>
-                                {(item.price)?.toFixed(2)} лв.
+                                {(product.price)?.toFixed(2)} лв.
                             </Text>
                         )}
                     </View>
@@ -83,12 +65,12 @@ export default function DetailsScreen({
 
                     <View style={styles.sectionContainer}>
                         <Text style={styles.sectionTitle}>Description</Text>
-                        <Text style={styles.description}>{item.description}</Text>
+                        <Text style={styles.description}>{product.description}</Text>
                     </View>
 
 
                 </View>
-            </ScrollView>
+            </ScrollView>:<EmptyDetailsCard navigation={navigation} />}
         </>
 
     )
