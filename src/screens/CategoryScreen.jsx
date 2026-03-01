@@ -1,68 +1,61 @@
-import { FlatList, View, StyleSheet, Text } from "react-native";
-import { useEffect, useState } from 'react'
+import { FlatList, View, StyleSheet, Text, Alert, ActivityIndicator } from "react-native";
+import { useEffect, useMemo, useState } from 'react'
 import { getAllByCategoryId, deleteItem } from "../api/itemsApi"
 import ItemCardWithGesture from "../components/ItemCardWithGesture"
 import { useTheme } from "../hooks/useTheme";
+import { useProducts } from "../contexts/products/useProducts";
 
 export default function CategoryScreen({ route, navigation }) {
 
-    const [items, setItems] = useState([])
     const { categoryId } = route.params;
     const { theme } = useTheme();
+    const {
+        deleteProduct,
+        getProductsByCategory,
+        loading
+    } = useProducts()
 
 
-    async function deleteItemHandler(itemId) {
-        try {
-
-            const data = await deleteItem(itemId)
-            setItems((oldItems) => oldItems.filter(item => item.id !== itemId));
-        } catch (error) {
-            console.log(error)
-        }
+    async function deleteProductHandler(itemId, imageUrl) {
+        deleteProduct(itemId, imageUrl)
+    }
+    async function editProductHandler(itemId, imageUrl) {
+        navigation.navigate(
+            'Edit',
+            {
+                mode: 'edit',
+                productId: itemId,
+                imageUrl
+            }
+        );
     }
 
-    useEffect(() => {
-        async function getCategoryItems(categoryId) {
-            try {
-                const data = await getAllByCategoryId(categoryId)
-                setItems(data.data)
-            } catch (error) {
-                console.error('Error: ' + error)
-            }
-        }
-        getCategoryItems(categoryId)
-    }, [categoryId])
+    const categoryProducts = useMemo(() => {
+        return getProductsByCategory(categoryId);
+    }, [getProductsByCategory, categoryId]);
 
     return (
 
+
         <View style={{ flex: 1 }}>
-            {items.length === 0 ? (
+            {categoryProducts?.length === 0 ? (
                 <View style={[styles.emptyBox, { backgroundColor: theme.colors.backgroundCard }]}>
                     <Text style={[styles.emptyText, { color: theme.colors.text }]}>No products</Text>
                 </View>
             ) : (
                 <FlatList
-                    data={items}
-                    keyExtractor={(item) => item.id}
+                    data={categoryProducts}
+                    keyExtractor={(product) => product.id}
                     renderItem={({ item, index }) => (
                         <ItemCardWithGesture
                             item={item}
                             index={index}
-                            onPress={() => navigation.navigate('Details', { itemId: item.id })}
-                            onDelete={() => deleteItemHandler(item.id)}
+                            onPress={() => navigation.navigate('Details', { productId: item.id })}
+                            onDelete={() => deleteProductHandler(item.id, item.imageUrl)}
+                            onEdit={() => editProductHandler(item.id, item.imageUrl)}
+                            loading={loading}
                         />
                     )}
-
-                    maxToRenderPerBatch={3}
-                    initialNumToRender={3}
-                    windowSize={2}
-                    removeClippedSubviews={true}
-                    updateCellsBatchingPeriod={50}
-                    getItemLayout={(_, index) => ({
-                        length: 100,
-                        offset: 100 * index,
-                        index,
-                    })}
                     showsVerticalScrollIndicator={false}
                 />
             )}
@@ -81,5 +74,10 @@ const styles = StyleSheet.create({
     emptyText: {
         fontSize: 16,
         fontStyle: 'italic',
+    },
+    centered: {
+        height: 200,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })

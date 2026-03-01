@@ -1,34 +1,34 @@
-import { View,Text,StyleSheet,TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { useTheme } from "../hooks/useTheme";
 
 export default function CategoryCard({
-    id,
+    categoryId,
     title,
     icon,
-    onPress}) {
-        const{theme}=useTheme()
+    onPress }) {
+    const { theme } = useTheme()
 
 
 
     return (
-        
-        
-                <TouchableOpacity style={[styles.categoryCard,{backgroundColor:theme.colors.backgroundCard}]} onPress={()=>onPress(id)}>
-                    <View style={styles.iconWrapper}>
-                        <Ionicons
-                            name={icon}
-                            size={16}
-                            color="#0890ff"
-                        />
-                    </View>
 
-                    <Text style={{color:theme.colors.textCard}}>
-                        {title}
-                    </Text>
-                </TouchableOpacity>
-         
-        
+
+        <TouchableOpacity style={[styles.categoryCard, { backgroundColor: theme.colors.backgroundCard }]} onPress={() => onPress(categoryId)}>
+            <View style={styles.iconWrapper}>
+                <Ionicons
+                    name={icon}
+                    size={16}
+                    color="#0890ff"
+                />
+            </View>
+
+            <Text style={{ color: theme.colors.textCard }}>
+                {title}
+            </Text>
+        </TouchableOpacity>
+
+
     );
 }
 
@@ -37,13 +37,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         width: 110,
         height: 40,
-        
+
         borderRadius: 6,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom:10,
-        flexDirection:'row',
-        
+        marginBottom: 10,
+        flexDirection: 'row',
+
 
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         marginRight: 8,
 
     },
-   
+
     categoryText: {
         fontSize: 14,
         fontWeight: '600',
