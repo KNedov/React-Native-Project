@@ -10,7 +10,7 @@ import {
 
 export const useImagePick = () => {
     const [image, setImage] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loadingPick, setLoadingPick] = useState(false);
     const [error, setError] = useState(null);
 
     const requestGalleryPermission = async () => {
@@ -66,13 +66,13 @@ export const useImagePick = () => {
     };
 
     const pickFromGallery = async (options = {}) => {
-        setLoading(true);
+        setLoadingPick(true);
         setError(null);
         
         try {
             const hasPermission = await requestGalleryPermission();
             if (!hasPermission) {
-                setLoading(false);
+                setLoadingPick(false);
                 return null;
             }
 
@@ -89,11 +89,11 @@ export const useImagePick = () => {
                     type: result.assets[0].type || 'image/jpeg',
                 };
                 setImage(selectedImage);
-                setLoading(false);
+                setLoadingPick(false);
                 return selectedImage;
             }
             
-            setLoading(false);
+            setLoadingPick(false);
             return null;
         } catch (err) {
             setError(err.message);
@@ -104,13 +104,13 @@ export const useImagePick = () => {
     };
 
     const takePhoto = async (options = {}) => {
-        setLoading(true);
+        setLoadingPick(true);
         setError(null);
         
         try {
             const hasPermission = await requestCameraPermission();
             if (!hasPermission) {
-                setLoading(false);
+                setLoadingPick(false);
                 return null;
             }
 
@@ -126,15 +126,15 @@ export const useImagePick = () => {
                     type: 'image/jpeg',
                 };
                 setImage(photo);
-                setLoading(false);
+                setLoadingPick(false);
                 return photo;
             }
             
-            setLoading(false);
+            setLoadingPick(false);
             return null;
         } catch (err) {
             setError(err.message);
-            setLoading(false);
+            setLoadingPick(false);
             Alert.alert('Error', 'Failed to take photo');
             return null;
         }
@@ -147,7 +147,7 @@ export const useImagePick = () => {
 
     return {
         image,
-        loading,
+        loadingPick,
         error,
         pickFromGallery,
         takePhoto,
