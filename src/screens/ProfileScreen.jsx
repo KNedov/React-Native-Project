@@ -83,11 +83,11 @@ export default function ProfileScreen ({ navigation })  {
                         counter={2}
                     />
                     <TouchableOpacity
-                        style={[styles.logoutButton, { backgroundColor: theme.colors.card }]}
+                        style={[styles.logoutButton, { backgroundColor: theme.colors.backgroundCard }]}
                         onPress={handleLogout}
                     >
                         <View style={styles.menuItemLeft}>
-                            <View style={[styles.menuIconContainer, { backgroundColor: '#FF3B3020' }]}>
+                            <View style={[styles.menuIconContainer, { backgroundColor: theme.colors.backgroundContent }]}>
                                 <Ionicons name="log-out-outline" size={24} color="#FF3B30" />
                             </View>
                             <Text style={[styles.logoutText, { color: '#FF3B30' }]}>Logout</Text>

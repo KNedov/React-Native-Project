@@ -23,7 +23,6 @@ import Toast from 'react-native-toast-message';
 import { CATEGORIES } from '../utils/categoryUtil';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLoadProductForEdit } from '../hooks/useLoadProductForEdit';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function ProductFormScreen({ navigation, route }) {
 
