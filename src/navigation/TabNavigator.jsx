@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeNavigator from "./HomeNavigator";
 import{Ionicons } from "@expo/vector-icons"
-import AddNavigator from "./AddNavigator";
+import ProductFormNavigator from "./ProductFormNavigator";
 import ProfileNavigator from "./ProfileNavigator";
 
 export default function TabNavigator() {
@@ -18,10 +18,10 @@ export default function TabNavigator() {
                 headerShown:false
             }}/>
             <Tabs.Screen
-            name="AddTab"
-            component={AddNavigator}
+            name="ProductFormTab"
+            component={ProductFormNavigator}
             options={{
-                title:"Add Product",
+                title:"ProductForm",
                 tabBarIcon:({color,size})=><Ionicons name='add' size={size} color={color}/>,
                 headerShown:false
             }}/>

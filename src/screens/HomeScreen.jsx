@@ -1,109 +1,95 @@
-import { useEffect, useState } from "react";
-import { ScrollView, Text, View, RefreshControl, StyleSheet } from "react-native";
-import { categoryApi, itemsApi } from "../api";
+import { useState } from "react";
+import { ScrollView, Text, View, RefreshControl, StyleSheet, ActivityIndicator } from "react-native";
+
 import CategoryCard from "../components/CategoryCard";
 import ProductCard from "../components/ProductCard";
 import NewCard from "../components/NewCard";
 import { useTheme } from "../hooks/useTheme";
 
+import { useProducts } from "../contexts/products/useProducts";
+import { Ionicons } from "@expo/vector-icons"
+import { CATEGORIES } from "../utils/categoryUtil"
+export default function HomeScreen({ navigation }) {
 
-export default function HomeScreen({navigation,route}) {
-    const [categories, setCategories] = useState([])
-    const [lastItem, setLastItem] = useState([])
-    const [refreshing, setRefreshing] = useState(true)
-    const [featured, setFeatured] = useState([])
-    const [toggleRefresh, setToggleRefresh] = useState(true)
+    const [refreshing, setRefreshing] = useState(false)
     const { theme } = useTheme();
+    const {
+        featuredItems,
+        lastProduct,
+        loading,
+        refreshProducts,
+    } = useProducts()
 
-    
-      
-    useEffect(() => {
-        
-        if (route?.params?.refresh) {
-            setToggleRefresh(prev => !prev);
-            navigation.setParams({ refresh: false });
-        }
-        
-    }, [route?.params?.refresh]);
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await refreshProducts();
 
-    useEffect(() => {
-        async function fetchData() {
-            setRefreshing(true);
-            try {
-                const categoryData = await categoryApi.getAll();
-                setCategories(categoryData.data);
-                const featuredData = await itemsApi.getFeatured();
-                setFeatured(featuredData.data)
-                const data = await itemsApi.getLast();
-                setLastItem([data]);
-             
-
-            } catch (error) {
-                alert('Cannot load data')
-            } finally {
-                setRefreshing(false)
-            }
-        }
-
-        fetchData()
-    }, [toggleRefresh])
-    const refreshHandler = () => {
-        setToggleRefresh(state => !state);
+        setRefreshing(false);
     };
+
     const categoryPressHandler = (categoryId) => {
-
-        navigation.navigate('Category',{categoryId})
+        navigation.navigate('Category', { categoryId })
     };
-    const itemPressHandler = (itemId) => {
-
-
-
-        navigation.navigate('Details',{itemId})
+    
+    const productPressHandler = (productId) => {
+        navigation.navigate('Details', { productId })
     };
-
-
 
     return (
-
-        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshHandler} />} >
-            {lastItem.length>0?<NewCard lastItem={lastItem[0]} onPress={itemPressHandler} />:null}
-
-            <View style={styles.section}>
-                <Text style={[styles.title,{color:theme.colors.text}]}>Categories</Text>
-
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}  >
-
-                    <View style={{ gap: 12, flexDirection: 'row' }}>
-                        {categories.map((category) => {
-                            return (
-                                <CategoryCard
-                                    key={category.id}
-                                    {...category}
-                                    onPress={categoryPressHandler}
-                                />
-                            )
-                        })}
-                    </View>
-                </ScrollView>
+        loading && !refreshing && !featuredItems?.length
+            ?
+            <View style={[styles.loadingContainer, { backgroundColor: theme.colors.background }]}>
+                <ActivityIndicator size="large" color={theme.colors.primary} />
             </View>
-            <View style={styles.section}>
-                <Text style={[styles.title,{color:theme.colors.text}]}>Featured Items</Text>
-                <ScrollView horizontal style={styles.featuredList}>
+            :
+            <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
+                {lastProduct && <NewCard lastProduct={lastProduct} onPress={() => navigation.navigate('Details', { productId: lastProduct.id })} />}
 
-                    <View style={{ gap: 12, flexDirection: 'row' }}>
-                        {featured.map((item) => (
-                            <View key={item.id} style={styles.featuredCard}>
-                                <ProductCard
-                                    {...item}
-                                    onPress={itemPressHandler}
-                                />
+                <View style={styles.section}>
+                    <Text style={[styles.title, { color: theme.colors.text }]}>Categories</Text>
+
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false}  >
+
+                        <View style={{ gap: 12, flexDirection: 'row' }}>
+                            {CATEGORIES.map((category) => {
+                                return (
+                                    <CategoryCard
+                                        key={category.categoryId}
+                                        {...category}
+                                        onPress={categoryPressHandler}
+                                    />
+                                )
+                            })}
+                        </View>
+                    </ScrollView>
+                </View>
+                <View style={styles.section}>
+                    <Text style={[styles.title, { color: theme.colors.text }]}>Featured Items</Text>
+
+                    {featuredItems?.length > 0 ? (
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                            <View style={{ gap: 12, flexDirection: 'row' }}>
+                                {featuredItems?.map((item) => (
+                                    <View key={item.id} style={styles.featuredCard}>
+                                        <ProductCard {...item} onPress={productPressHandler} />
+                                    </View>
+                                ))}
                             </View>
-                        ))}
-                    </View>
+                        </ScrollView>
+                    ) : (
+                        <View style={[styles.emptyContainer, { backgroundColor: theme.colors.backgroundCard }]}>
+                            <Ionicons name="heart-outline" size={60} color={theme.colors.textSecondary} />
+                            <Text style={[styles.emptyTitle, { color: theme.colors.text }]}>
+                                No Featured Items
+                            </Text>
+                            <Text style={[styles.emptyDescription, { color: theme.colors.textSecondary }]}>
+                                Check back later for new featured products
+                            </Text>
+                        </View>
+                    )}
+                </View>
+            </ScrollView>
 
-                </ScrollView>
-            </View>
-        </ScrollView>
 
     )
 }
@@ -155,4 +141,39 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    emptyContainer: {
+        paddingVertical: 32,
+        paddingHorizontal: 24,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 240,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+        elevation: 3,
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.05)',
+    },
+    emptyImage: {
+        width: 140,
+        height: 140,
+        marginBottom: 16,
+        opacity: 0.9,
+    },
+    emptyTitle: {
+        fontSize: 18,
+        fontWeight: '600',
+        marginBottom: 6,
+        letterSpacing: 0.3,
+    },
+    emptySubtitle: {
+        fontSize: 14,
+        textAlign: 'center',
+        opacity: 0.7,
+        maxWidth: 200,
+        lineHeight: 20,
+    },
+
 })
