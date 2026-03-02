@@ -1,6 +1,6 @@
 import { Image, Text, TouchableOpacity, View, StyleSheet, Alert } from "react-native";
 import { useTheme } from '../hooks/useTheme'
-import { Ionicons } from '@expo/vector-icons';
+
 
 export default function ProfileInfoCard({ defaultImage, user }) {
     const { theme } = useTheme()
@@ -12,12 +12,7 @@ export default function ProfileInfoCard({ defaultImage, user }) {
                     source={{ uri: user?.image || defaultImage }}
                     style={styles.profileImage}
                 />
-                <TouchableOpacity
-                    style={[styles.editImageButton, { backgroundColor: theme.colors.primary }]}
-                    onPress={() => Alert.alert('Coming Soon', 'Image upload will be available soon')}
-                >
-                    <Ionicons name="camera" size={16} color="#FFFFFF" />
-                </TouchableOpacity>
+               
             </View>
 
             <Text style={[styles.profileName, { color: theme.colors.text }]}>
@@ -27,14 +22,7 @@ export default function ProfileInfoCard({ defaultImage, user }) {
                 {user?.email || 'email@example.com'}
             </Text>
 
-            <View style={styles.statsContainer}>
-                <View style={styles.statItem}>
-                    <Text style={[styles.statValue, { color: theme.colors.text }]}>0</Text>
-                    <Text style={[styles.statLabel, { color: theme.colors.textCard }]}>Orders</Text>
-                </View>
-
-
-            </View>
+           
         </View>
     );
 }
