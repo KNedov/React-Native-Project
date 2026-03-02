@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "React-Native-Project",
-    "slug": "React-Native-Project",
+    "name": "Nexus Store",
+    "slug": "nexus-store",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,7 +10,8 @@
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },"experiments": {
+    },
+    "experiments": {
       "reactCompiler": true
     },
     "userInterfaceStyle": "automatic",
@@ -25,7 +26,10 @@
         "userInterfaceStyle": "automatic"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.ReactNativeProject"
+      "package": "com.anonymous.ReactNativeProject",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "plugins": [
       "expo-system-ui",
@@ -35,11 +39,14 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-
-   
     ],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "96231c28-c4ad-4121-88ef-f4384b0f927d"
+      }
     }
   }
 }
