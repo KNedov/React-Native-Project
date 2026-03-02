@@ -120,11 +120,7 @@ export default function ProductFormScreen({ navigation, route }) {
                     routes: [
                         {
                             name: 'HomeTab',
-                            state: {
-                                routes: [
-                                    { name: 'Home' }
-                                ]
-                            }
+
                         },
 
 
@@ -177,7 +173,7 @@ export default function ProductFormScreen({ navigation, route }) {
 
                 >
                     <ScrollView contentContainerStyle={styles.scrollContent}>
-                        <Text style={[styles.title, { color: theme.colors.textCard }]}>{isEditMode ? 'Edit' : 'Create New'} Product</Text>
+                        <Text style={[styles.title, { color: theme.colors.text }]}>{isEditMode ? 'Edit' : 'Create New'} Product</Text>
 
 
                         <View style={styles.field}>

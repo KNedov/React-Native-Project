@@ -21,7 +21,7 @@ export default function TabNavigator() {
             name="ProductFormTab"
             component={ProductFormNavigator}
             options={{
-                title:"ProductForm",
+                title:"Create Product",
                 tabBarIcon:({color,size})=><Ionicons name='add' size={size} color={color}/>,
                 headerShown:false
             }}/>
