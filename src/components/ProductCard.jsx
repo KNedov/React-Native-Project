@@ -33,7 +33,7 @@ export default function ProductCard({ id, name, description, price, imageUrl, on
                 <View style={styles.content}>
 
 
-                    <Text style={[styles.title,{color:theme.colors.textCard}]} numberOfLines={2}>{name}</Text>
+                    <Text style={[styles.title,{color:theme.colors.textCard}]} numberOfLines={1}>{name}</Text>
 
                     {description && (
                         <Text style={styles.subtitle} numberOfLines={1}>{description}</Text>

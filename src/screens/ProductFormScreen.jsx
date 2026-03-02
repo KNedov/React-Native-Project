@@ -20,7 +20,7 @@ import ImagePickerButtons from '../components/ImagePickerButtons';
 import { useImagePick } from '../hooks/useImagePick';
 import { useFormValidation } from '../hooks/useFormValidation';
 import Toast from 'react-native-toast-message';
-import { CATEGORIES } from '../utils/categoryUtil';
+import { CATEGORIES } from '../utils/constantUtil';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLoadProductForEdit } from '../hooks/useLoadProductForEdit';
 

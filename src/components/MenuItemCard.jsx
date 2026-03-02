@@ -7,11 +7,10 @@ export default function MenuItemCard({
     cardName,
     context,
     onPress,
-    counter
+    counter=0
 
 }) {
     const { theme } = useTheme()
-
     return (
         <TouchableOpacity
             style={[styles.menuItem, { backgroundColor: theme.colors.backgroundCard }]}
@@ -31,10 +30,9 @@ export default function MenuItemCard({
                 </View>
             </View>
             <View style={styles.menuItemRight}>
-                {counter &&
                     <View style={styles.cartBadge}>
                         <Text style={styles.cartBadgeText}>{counter}</Text>
-                    </View>}
+                    </View>
                 <Ionicons name="chevron-forward" size={20} color={theme.colors.textCard} />
             </View>
         </TouchableOpacity>

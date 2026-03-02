@@ -8,7 +8,7 @@ import { useTheme } from "../hooks/useTheme";
 
 import { useProducts } from "../contexts/products/useProducts";
 import { Ionicons } from "@expo/vector-icons"
-import { CATEGORIES } from "../utils/categoryUtil"
+import { CATEGORIES } from "../utils/constantUtil"
 export default function HomeScreen({ navigation }) {
 
     const [refreshing, setRefreshing] = useState(false)
