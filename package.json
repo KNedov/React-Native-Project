@@ -11,8 +11,7 @@
     "ios": "cross-env NODE_ENV=development expo run:ios",
     "web": "cross-env NODE_ENV=development expo start --web",
     "prebuild": "cross-env NODE_ENV=production expo prebuild",
-    "build:apk": "cd android && gradlew assembleRelease",
-    "server": "json-server --watch db.json  --host 0.0.0.0 --port 3001"
+    "build:apk": "cd android && gradlew assembleRelease"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
