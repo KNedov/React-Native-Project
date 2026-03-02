@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
-    Image,
     Alert,
     ScrollView,
-    Modal,
-    TextInput,
-    ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,38 +13,34 @@ import { useAuth } from '../contexts/auth/useAuth';
 import { useTheme } from "../hooks/useTheme";
 import ProfileInfoCard from '../components/ProfileInfoCard';
 import MenuItemCard from '../components/MenuItemCard';
+import { useCart } from '../contexts/cart/useCart';
+import { useEffect } from 'react';
+import Toast from 'react-native-toast-message';
 
-export default function ProfileScreen ({ navigation })  {
+export default function ProfileScreen({ navigation }) {
     const { theme } = useTheme();
     const { user, logout } = useAuth();
+    const { cartItems, completedOrders } = useCart()
+
 
 
 
     const defaultImage = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
 
     const handleLogout = () => {
-        Alert.alert(
-            'Logout',
-            'Are you sure you want to logout?',
-            [
-                {
-                    text: 'Cancel',
-                    style: 'cancel',
+        Toast.show({
+            type: 'confirm',
+            text1: `Are you sure you want to logout?`,
+            position: 'top',
+            autoHide: false,
+            topOffset: 450,
+            props: {
+                onConfirm: () => {
+                    logout();
                 },
-                {
-                    text: 'Logout',
-                    onPress: async () => {
-                        try {
-                            await logout();
-
-                        } catch (error) {
-                            Alert.alert('Error', 'Failed to logout');
-                        }
-                    },
-                    style: 'destructive',
-                },
-            ]
-        );
+                onCancel: () => { }
+            }
+        });
     };
 
 
@@ -63,6 +55,16 @@ export default function ProfileScreen ({ navigation })  {
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
             >
+                <View style={[{ flexDirection: 'row' }, { alignItems: 'center' }, { justifyContent: 'flex-start' }, { gap: 80 }, { marginBottom: 15 }, { marginStart: 20 }, { marginTop: 20 }]}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
+                    </TouchableOpacity>
+                    <View>
+                        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
+                            User Profile
+                        </Text>
+                    </View>
+                </View>
                 <ProfileInfoCard
                     defaultImage={defaultImage}
                     user={user}
@@ -73,14 +75,14 @@ export default function ProfileScreen ({ navigation })  {
                         cardName={'Shoping Cart'}
                         context={'View and manage your items'}
                         onPress={navigateToCart}
-                        counter={3}
+                        counter={cartItems?.length}
                     />
                     <MenuItemCard
                         cardLogo={'receipt-outline'}
                         cardName={'My Orders'}
                         context={'Track and view your orders'}
                         onPress={() => navigation.navigate('Orders')}
-                        counter={2}
+                        counter={completedOrders?.length}
                     />
                     <TouchableOpacity
                         style={[styles.logoutButton, { backgroundColor: theme.colors.backgroundCard }]}

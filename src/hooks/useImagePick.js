@@ -1,4 +1,4 @@
-// hooks/useImagePicker.js
+
 import { useState } from 'react';
 import { Alert, Platform, Linking } from 'react-native';
 import { 

@@ -1,5 +1,5 @@
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
-import { TouchableOpacity, View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { scheduleOnRN } from 'react-native-worklets';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,13 +10,14 @@ import { useAuth } from '../contexts/auth/useAuth';
 export default function ItemCardWithGesture({
     item,
     onPress,
-    onDelete,
-    onEdit,
-    loading
+    onPressDelete,
+    onPressEdit,
+    loading,
+    onPressCart,
 }) {
     const { user } = useAuth();
     const isOwner = user?.id === item?.userId;
-    
+
     const positionX = useSharedValue(0);
     const scale = useSharedValue(1);
     const isOpen = useSharedValue(false);
@@ -77,16 +78,22 @@ export default function ItemCardWithGesture({
     const combinedGesture = Gesture.Race(deleteGesture, tapGesture);
 
     const handleEdit = () => {
-        scheduleOnRN(onEdit, item.id);
+        scheduleOnRN(onPressEdit, item.id);
         positionX.value = withSpring(0);
         isOpen.value = false;
     };
 
     const handleDelete = () => {
-        scheduleOnRN(onDelete, item.id);
+        scheduleOnRN(onPressDelete, item.id);
         positionX.value = withSpring(0);
         isOpen.value = false;
     };
+
+    const handleCart = () => {
+    onPressCart(item);
+    positionX.value = withSpring(0);
+    isOpen.value = false;
+};
 
     return (
         <View style={{ position: 'relative' }}>
@@ -117,7 +124,7 @@ export default function ItemCardWithGesture({
 
 
                         {!loading &&
-                         
+
                             <>
                                 <TouchableOpacity
                                     style={[styles.button, styles.deleteButton]}
@@ -141,10 +148,14 @@ export default function ItemCardWithGesture({
 
                     </View>
                 ) : (
-                    <View style={styles.infoContainer}>
-                        <Ionicons name="information-circle" size={32} color="#FFA500" />
-                        <Text style={styles.infoText}>You don't own this item</Text>
-                    </View>
+                    <TouchableOpacity
+                        style={[styles.button, styles.cartButton]}
+                        onPress={handleCart}
+                        activeOpacity={0.7}
+                    >
+                        <Ionicons name="cart-outline" size={32} color="#007AFF" />
+                        <Text style={styles.cartText}>Cart</Text>
+                    </TouchableOpacity>
                 )}
             </Animated.View>
         </View>
@@ -210,4 +221,15 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '500',
     },
+    cartButton: {
+    backgroundColor: '#F0F8FF',
+    borderColor: '#007AFF',
+},
+
+cartText: {
+    color: '#007AFF',
+    fontSize: 16,
+    fontWeight: '600',
+    marginTop: 4,
+},
 });
