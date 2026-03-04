@@ -12,9 +12,9 @@ export default function HomeNavigator() {
 
     return(
         <Stack.Navigator>
-            <Stack.Screen name="Home"  component={HomeScreen}/>
-            <Stack.Screen name="Category" component={CategoryScreen}/>
-            <Stack.Screen name="Details" component={DetailsScreen}/>
+            <Stack.Screen name="Home" options={{headerShown:false}}  component={HomeScreen}/>
+            <Stack.Screen name="Category" options={{headerShown:false}} component={CategoryScreen}/>
+            <Stack.Screen name="Details" options={{headerShown:false}} component={DetailsScreen}/>
             <Stack.Screen name="Edit" options={{headerShown:false}}  component={ProductFormScreen}/>
         </Stack.Navigator>
     )

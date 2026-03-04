@@ -9,6 +9,7 @@ import { useTheme } from "../hooks/useTheme";
 import { useProducts } from "../contexts/products/useProducts";
 import { Ionicons } from "@expo/vector-icons"
 import { CATEGORIES } from "../utils/constantUtil"
+import CustomHeader from "../components/CustomHeader";
 export default function HomeScreen({ navigation }) {
 
     const [refreshing, setRefreshing] = useState(false)
@@ -42,6 +43,10 @@ export default function HomeScreen({ navigation }) {
             </View>
             :
             <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
+                <CustomHeader
+                title={'Home'}
+                theme={theme}
+                />
                 {lastProduct && <NewCard lastProduct={lastProduct} onPress={() => navigation.navigate('Details', { productId: lastProduct.id })} />}
 
                 <View style={styles.section}>

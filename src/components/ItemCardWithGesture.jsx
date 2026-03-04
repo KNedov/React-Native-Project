@@ -136,14 +136,14 @@ export default function ItemCardWithGesture({
                             style={[styles.button, styles.editButton]}
                             onPress={handleEdit}
                             activeOpacity={0.7}
-                            disabled={isDeleting}  // ← и тук
+                            disabled={isDeleting}  
                         >
                             <Ionicons name="pencil-outline" size={32} color="#007AFF" />
                             <Text style={styles.editText}>Edit</Text>
                         </TouchableOpacity>
                     </>
                 ) : (
-                    <ActivityIndicator size="large" color="#007AFF" />  // ← ТУК!
+                    <ActivityIndicator size="large" color="#007AFF" />
                 )}
             </View>
         ) : (

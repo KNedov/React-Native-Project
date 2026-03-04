@@ -6,6 +6,7 @@ import { useProducts } from "../contexts/products/useProducts";
 import { useCart } from "../contexts/cart/useCart";
 import Toast from "react-native-toast-message";
 import { showToast } from "../utils/toast";
+import CustomHeader from "../components/CustomHeader";
 
 export default function CategoryScreen({ route, navigation }) {
     const { addToCart } = useCart();
@@ -78,8 +79,13 @@ export default function CategoryScreen({ route, navigation }) {
 
     return (
 
-
+        
         <View style={{ flex: 1 }}>
+            <CustomHeader
+            navigation={navigation}
+            title={categoryId}
+            theme={theme}
+            />
             {categoryProducts?.length === 0 ? (
                 <View style={[styles.emptyBox, { backgroundColor: theme.colors.backgroundCard }]}>
                     <Text style={[styles.emptyText, { color: theme.colors.text }]}>No products</Text>

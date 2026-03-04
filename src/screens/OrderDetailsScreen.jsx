@@ -13,6 +13,7 @@ import { useTheme } from "../hooks/useTheme";
 import { useCart } from '../contexts/cart/useCart';
 import Toast from 'react-native-toast-message';
 import { OrderUtils } from '../utils/orderUtils'
+import CustomHeader from '../components/CustomHeader';
 
 export default function OrderDetailsScreen({ navigation, route }) {
     const { theme } = useTheme();
@@ -21,18 +22,6 @@ export default function OrderDetailsScreen({ navigation, route }) {
 
     const order = getOrderById(orderId);
 
-    
-
-
-
-    const handleContactSupport = () => {
-        Toast.show({
-            type: 'info',
-            text1: 'Contact Support',
-            text2: 'support@example.com',
-            position: 'bottom',
-        });
-    };
     const handleResetToUserTab = () => {
     navigation.reset({
         index: 0,
@@ -65,19 +54,13 @@ if (!order) {
     }
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
-                </TouchableOpacity>
-                <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
-                    Order Details
-                </Text>
-                <TouchableOpacity onPress={handleContactSupport}>
-                    <Ionicons name="help-circle-outline" size={24} color={theme.colors.text} />
-                </TouchableOpacity>
-            </View>
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+           
+            <CustomHeader
+            theme={theme}
+            navigation={navigation}
+            title={'Order Details'}
+            />
 
             <ScrollView
                 contentContainerStyle={styles.scrollContent}
@@ -254,7 +237,7 @@ if (!order) {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 }
 

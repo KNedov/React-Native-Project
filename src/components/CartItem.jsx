@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
         height: 80,
         borderRadius: 8,
         marginRight: 12,
+        resizeMode:'contain'
     },
     itemDetails: {
         flex: 1,

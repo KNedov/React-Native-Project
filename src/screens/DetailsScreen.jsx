@@ -5,6 +5,7 @@ import { Dimensions } from 'react-native';
 import { useTheme } from "../hooks/useTheme";
 import { useProducts } from "../contexts/products/useProducts";
 import EmptyDetailsCard from "../components/EmtyDetailsCard";
+import CustomHeader from "../components/CustomHeader";
 const { width } = Dimensions.get('window');
 
 export default function DetailsScreen({
@@ -21,6 +22,11 @@ export default function DetailsScreen({
     return (
         <>
             <StatusBar backgroundColor={theme.colors.backgroundColor} />
+            <CustomHeader
+            navigation={navigation}
+            title={'Details'}
+            theme={theme}
+            />
             {product ? <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 
 

@@ -16,6 +16,7 @@ import EmptyCart from '../components/EmptyCart';
 import CartFooter from '../components/CartFooter';
 import { Ionicons } from '@expo/vector-icons';
 import {calculateSubtotal,calculateTotal,calculateTax} from'../utils/cartUtils'
+import CustomHeader from '../components/CustomHeader';
 
 export default function CartScreen({ navigation,route }) {
     const { theme } = useTheme();
@@ -145,23 +146,15 @@ export default function CartScreen({ navigation,route }) {
     }
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
 
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
-                </TouchableOpacity>
-                <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
-                    Shopping Cart
-                </Text>
-                {cartItems.length > 0 && (
-                    <TouchableOpacity onPress={handleClearCart}>
-                        <Text style={[styles.clearText, { color: theme.colors.primary }]}>
-                            Clear All
-                        </Text>
-                    </TouchableOpacity>
-                )}
-            </View>
+            <CustomHeader
+            theme={theme}
+            title={'Shoping Cart'}
+            navigation={navigation}
+            onClearAll={handleClearCart}
+
+            />
 
 
             <FlatList
@@ -199,7 +192,7 @@ export default function CartScreen({ navigation,route }) {
                     isCartModal={isCartModal}
                 />
             )}
-        </SafeAreaView>
+        </View>
     );
 }
 

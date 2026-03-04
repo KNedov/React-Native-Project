@@ -23,6 +23,7 @@ import DeliverySection from '../components/DeliverySection';
 import PaymentSection from '../components/PaymentSection';
 import OrderSummary from '../components/OrderSummary';
 import CheckoutInput from '../components/CheckoutInput';
+import CustomHeader from '../components/CustomHeader';
 
 export default function CheckOutScreen({ navigation, route }) {
     const { theme } = useTheme();
@@ -108,24 +109,24 @@ export default function CheckOutScreen({ navigation, route }) {
 
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+            <CustomHeader
+            theme={theme}
+            navigation={navigation}
+            title={'Checkout'}
+            />
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.flex}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 100}
             >
                 <ScrollView
                     contentContainerStyle={styles.scrollContent}
                     showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
                 >
 
-                    <View style={styles.header}>
-                        <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
-                        </TouchableOpacity>
-                        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Checkout</Text>
-                        <View style={{ width: 24 }} />
-                    </View>
+                
 
                     {renderSection('Delivery Information', (
                         <>
@@ -280,7 +281,7 @@ export default function CheckOutScreen({ navigation, route }) {
                     </Text>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </View>
     );
 };
 

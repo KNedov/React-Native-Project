@@ -24,6 +24,7 @@ import { CATEGORIES } from '../utils/constantUtil';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLoadProductForEdit } from '../hooks/useLoadProductForEdit';
 import { showToast } from '../utils/toast';
+import CustomHeader from '../components/CustomHeader';
 
 export default function ProductFormScreen({ navigation, route }) {
 
@@ -166,7 +167,9 @@ export default function ProductFormScreen({ navigation, route }) {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        
+       
+            
             <View style={[styles.container, { backgroundColor: theme.colors.backgroundColor }]}>
                 <KeyboardAvoidingView
                     style={{ flex: 1 }}
@@ -174,8 +177,13 @@ export default function ProductFormScreen({ navigation, route }) {
                     keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 100}
 
                 >
+                    
                     <ScrollView contentContainerStyle={styles.scrollContent}>
-                        <Text style={[styles.title, { color: theme.colors.text }]}>{isEditMode ? 'Edit' : 'Create New'} Product</Text>
+                       
+                        <CustomHeader
+                        theme={theme}
+                        title={`${isEditMode?'Edit':'Create New'} Product`}
+                        />
 
 
                         <View style={styles.field}>
@@ -468,7 +476,7 @@ export default function ProductFormScreen({ navigation, route }) {
                     </ScrollView>
                 </KeyboardAvoidingView>
             </View>
-        </SafeAreaView>
+        
     );
 }
 

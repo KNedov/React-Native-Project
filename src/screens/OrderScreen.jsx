@@ -167,7 +167,7 @@ export default function OrderScreen({ navigation }) {
 
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
 
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -240,7 +240,7 @@ export default function OrderScreen({ navigation }) {
                     </Text>
                 </View>
             )}
-        </SafeAreaView>
+        </View>
     );
 }
 

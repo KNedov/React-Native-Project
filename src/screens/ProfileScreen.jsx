@@ -16,6 +16,7 @@ import MenuItemCard from '../components/MenuItemCard';
 import { useCart } from '../contexts/cart/useCart';
 import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
+import CustomHeader from '../components/CustomHeader';
 
 export default function ProfileScreen({ navigation }) {
     const { theme } = useTheme();
@@ -50,21 +51,16 @@ export default function ProfileScreen({ navigation }) {
     };
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+             <CustomHeader
+                        theme={theme}
+                        title={`User Profile`}
+                        />
             <ScrollView
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
             >
-                <View style={[{ flexDirection: 'row' }, { alignItems: 'center' }, { justifyContent: 'flex-start' }, { gap: 80 }, { marginBottom: 15 }, { marginStart: 20 }, { marginTop: 20 }]}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
-                    </TouchableOpacity>
-                    <View>
-                        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
-                            User Profile
-                        </Text>
-                    </View>
-                </View>
+               
                 <ProfileInfoCard
                     defaultImage={defaultImage}
                     user={user}
@@ -99,7 +95,7 @@ export default function ProfileScreen({ navigation }) {
 
             </ScrollView>
 
-        </SafeAreaView>
+        </View>
     );
 };
 
@@ -161,7 +157,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginTop: 24,
     },
-    // Modal Styles
+  
     modalOverlay: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
