@@ -133,7 +133,7 @@ export default function ProductFormScreen({ navigation, route }) {
             price: parseFloat(formData.price),
             discount: parseInt(formData.discount) || 0,
             userId: user.id,
-            created_at: new Date().toISOString()
+            updated_at: new Date().toISOString()
         };
 
         try {

@@ -77,6 +77,7 @@ export async function update(productId, updateData) {
         const oldProduct = await getDoc(docRef);
         const oldData = oldProduct.data();
         const oldImageUrl = oldData?.imageUrl;
+        const createdAt = oldData?.created_at;
 
         let newImageUrl = updateData.imageUrl;
 
@@ -105,7 +106,8 @@ export async function update(productId, updateData) {
         const updatedProduct = {
             ...updateData,
             imageUrl: newImageUrl,
-            id:productId
+            id:productId,
+            created_at: createdAt,
            
         };
        
