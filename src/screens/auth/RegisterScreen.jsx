@@ -16,6 +16,7 @@ import { useAuth } from '../../contexts/auth/useAuth.js';
 import { useTheme } from "../../hooks/useTheme.js"
 import { useInputRefs } from '../../hooks/useInputRef.js';
 import Toast from 'react-native-toast-message';
+import { showToast } from '../../utils/toast.js';
 
 const RegisterScreen = ({ navigation }) => {
     const [formData, setFormData] = useState({
@@ -66,13 +67,17 @@ const RegisterScreen = ({ navigation }) => {
     const handleRegister = async () => {
         clearError();
         if (!validateForm()) return;
-        const result = await register(formData.email, formData.password, formData.name);
-        if (result.success) {
+        try {
+            const result = await register(formData.email, formData.password, formData.name);
+
             Toast.show({
                 type: 'success',
                 text1: 'Registration Successful!',
                 text2: 'Welcome to Nexus Store!'
             });
+
+        } catch (error) {
+            showToast.error('Registration Failed', error.message || 'Please try again')
         }
     };
 

@@ -23,6 +23,7 @@ import Toast from 'react-native-toast-message';
 import { CATEGORIES } from '../utils/constantUtil';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLoadProductForEdit } from '../hooks/useLoadProductForEdit';
+import { showToast } from '../utils/toast';
 
 export default function ProductFormScreen({ navigation, route }) {
 
@@ -100,35 +101,29 @@ export default function ProductFormScreen({ navigation, route }) {
             created_at: new Date().toISOString()
         };
 
-        await createProduct(
-            newProduct
-        )
+        try {
+            await createProduct(newProduct);
+            resetImage();
+            setUseImagePicker(false);
 
-        resetImage();
-        setUseImagePicker(false);
+            Toast.show({
+                type: 'success',
+                text1: 'Product Added!',
+                position: 'top',
+                visibilityTime: 2000,
+                autoHide: true,
+                topOffset: 50,
+                onShow: () => {
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'HomeTab' }]
+                    });
+                }
+            });
+        } catch (error) { 
+            showToast.error('Create Product Failed',error.message||'Please try again')
+        }
 
-        Toast.show({
-            type: 'success',
-            text1: 'Product Added!',
-            position: 'top',
-            visibilityTime: 2000,
-            autoHide: true,
-            topOffset: 50,
-            onShow: () => {
-                navigation.reset({
-                    index: 0,
-                    routes: [
-                        {
-                            name: 'HomeTab',
-
-                        },
-
-
-                    ]
-                });
-
-            }
-        });
 
     };
 
@@ -141,26 +136,33 @@ export default function ProductFormScreen({ navigation, route }) {
             created_at: new Date().toISOString()
         };
 
-        await updateProduct
-            (
-                productId,
-                updatedData,
-            )
-        resetImage();
-        setUseImagePicker(false);
+        try {
+            await updateProduct
+                (
+                    productId,
+                    updatedData,
+                )
+            resetImage();
+            setUseImagePicker(false);
 
-        Toast.show({
-            type: 'success',
-            text1: 'Product Updated!',
-            position: 'top',
-            visibilityTime: 2000,
-            autoHide: true,
-            topOffset: 50,
-            onShow: () => {
-                navigation.goBack();
+            Toast.show({
+                type: 'success',
+                text1: 'Product Updated!',
+                position: 'top',
+                visibilityTime: 2000,
+                autoHide: true,
+                topOffset: 50,
+                onShow: () => {
+                    navigation.goBack();
 
-            }
-        });
+                }
+            });
+        } catch (error) {
+            showToast.error('Update Products Failed', error.message || 'Please try again')
+        } finally {
+            resetImage();
+            setUseImagePicker(false);
+        }
     }
 
     return (

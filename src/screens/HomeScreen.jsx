@@ -23,7 +23,6 @@ export default function HomeScreen({ navigation }) {
     const onRefresh = async () => {
         setRefreshing(true);
         await refreshProducts();
-
         setRefreshing(false);
     };
 

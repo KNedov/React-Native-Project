@@ -59,11 +59,7 @@ export function AuthProvider({ children }) {
             });
         } catch (err) {
             const message = handleFirebaseError(err);
-            Toast.show({
-                type: 'error',
-                text1: 'Login Failed',
-                text2: message || 'Please try again'
-            });
+            throw new Error(message)
         } finally {
             setIsLoading(false);
         }
@@ -84,11 +80,7 @@ export function AuthProvider({ children }) {
             return { success: true };
         } catch (err) {
             const message = handleFirebaseError(err);
-            Toast.show({
-                type: 'error',
-                text1: 'Registration Failed',
-                text2: message || 'Please try again'
-            });
+            throw new Error(message)
         } finally {
             setIsLoading(false);
         }

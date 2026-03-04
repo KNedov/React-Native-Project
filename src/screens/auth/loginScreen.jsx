@@ -14,8 +14,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth/useAuth.js';
 import { useTheme } from "../../hooks/useTheme.js"
-import Toast from 'react-native-toast-message';
 import { useInputRefs } from '../../hooks/useInputRef.js';
+import { showToast } from '../../utils/toast.js';
 
 export default function LoginScreen({ navigation }) {
     const [formData, setFormData] = useState({
@@ -53,7 +53,12 @@ export default function LoginScreen({ navigation }) {
     const handleLogin = async () => {
 
         if (!validateForm()) return;
-         await login(formData.email, formData.password)
+         try{
+            await login(formData.email, formData.password)
+            showToast.success('Login Successful');
+         }catch(error){
+            showToast.error('Login Failed',error.message||'Please try again')
+         }
     };
 
     return (
