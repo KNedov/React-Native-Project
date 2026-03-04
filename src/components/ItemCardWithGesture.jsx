@@ -1,5 +1,5 @@
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { scheduleOnRN } from 'react-native-worklets';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,8 +11,8 @@ export default function ItemCardWithGesture({
     item,
     onPress,
     onPressDelete,
+    isDeleting,
     onPressEdit,
-    loading,
     onPressCart,
 }) {
     const { user } = useAuth();
@@ -96,69 +96,68 @@ export default function ItemCardWithGesture({
 };
 
     return (
-        <View style={{ position: 'relative' }}>
-            <GestureDetector gesture={combinedGesture}>
-                <Animated.View style={cardAnimatedStyle}>
-                    <ItemCard {...item} />
-                </Animated.View>
-            </GestureDetector>
+       <View style={{ position: 'relative' }}>
+    <GestureDetector gesture={combinedGesture}>
+        <Animated.View style={cardAnimatedStyle}>
+            <ItemCard {...item} />
+        </Animated.View>
+    </GestureDetector>
 
-            <Animated.View
-                style={[
-                    trashAnimatedStyle,
-                    {
-                        position: 'absolute',
-                        right: 10,
-                        top: 0,
-                        bottom: 0,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        zIndex: 5,
-                        pointerEvents: 'auto',
-                    }
-                ]}
-            >
-                {isOwner ? (
+    <Animated.View
+        style={[
+            trashAnimatedStyle,
+            {
+                position: 'absolute',
+                right: 10,
+                top: 0,
+                bottom: 0,
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 5,
+                pointerEvents: 'auto',
+            }
+        ]}
+    >
+        {isOwner ? (
+            <View style={styles.buttonsContainer}>
+                {!isDeleting ? (  
+                    <>
+                        <TouchableOpacity
+                            style={[styles.button, styles.deleteButton]}
+                            onPress={handleDelete}
+                            activeOpacity={0.7}
+                            disabled={isDeleting} 
+                        >
+                            <Ionicons name="trash-outline" size={32} color="#FF3B30" />
+                            <Text style={styles.deleteText}>Delete</Text>
+                        </TouchableOpacity>
 
-                    <View style={styles.buttonsContainer}>
-
-
-                        {!loading &&
-
-                            <>
-                                <TouchableOpacity
-                                    style={[styles.button, styles.deleteButton]}
-                                    onPress={handleDelete}
-                                    activeOpacity={0.7}
-                                    disabled={loading}
-                                >
-                                    <Ionicons name="trash-outline" size={32} color="#FF3B30" />
-                                    <Text style={styles.deleteText}>Delete</Text>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity
-                                    style={[styles.button, styles.editButton]}
-                                    onPress={handleEdit}
-                                    activeOpacity={0.7}
-                                >
-                                    <Ionicons name="pencil-outline" size={32} color="#007AFF" />
-                                    <Text style={styles.editText}>Edit</Text>
-                                </TouchableOpacity>
-                            </>}
-
-                    </View>
+                        <TouchableOpacity
+                            style={[styles.button, styles.editButton]}
+                            onPress={handleEdit}
+                            activeOpacity={0.7}
+                            disabled={isDeleting}  // ← и тук
+                        >
+                            <Ionicons name="pencil-outline" size={32} color="#007AFF" />
+                            <Text style={styles.editText}>Edit</Text>
+                        </TouchableOpacity>
+                    </>
                 ) : (
-                    <TouchableOpacity
-                        style={[styles.button, styles.cartButton]}
-                        onPress={handleCart}
-                        activeOpacity={0.7}
-                    >
-                        <Ionicons name="cart-outline" size={32} color="#007AFF" />
-                        <Text style={styles.cartText}>Cart</Text>
-                    </TouchableOpacity>
+                    <ActivityIndicator size="large" color="#007AFF" />  // ← ТУК!
                 )}
-            </Animated.View>
-        </View>
+            </View>
+        ) : (
+            <TouchableOpacity
+                style={[styles.button, styles.cartButton]}
+                onPress={handleCart}
+                activeOpacity={0.7}
+            >
+                <Ionicons name="cart-outline" size={32} color="#007AFF" />
+                <Text style={styles.cartText}>Cart</Text>
+            </TouchableOpacity>
+        )}
+    </Animated.View>
+</View>
     );
 }
 

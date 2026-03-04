@@ -1,5 +1,5 @@
 import { FlatList, View, StyleSheet, Text, } from "react-native";
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import ItemCardWithGesture from "../components/ItemCardWithGesture"
 import { useTheme } from "../hooks/useTheme";
 import { useProducts } from "../contexts/products/useProducts";
@@ -11,6 +11,7 @@ export default function CategoryScreen({ route, navigation }) {
     const { addToCart } = useCart();
     const { categoryId } = route.params;
     const { theme } = useTheme();
+    const [deletingId, setDeletingId] = useState(null);
     const {
         deleteProduct,
         getProductsByCategory,
@@ -19,35 +20,43 @@ export default function CategoryScreen({ route, navigation }) {
 
 
     async function deleteProductHandler(itemId, imageUrl) {
-          Toast.show({
-                    type: 'confirm',
-                    text1: `Are you sure you want to delete item?`,
-                    position: 'top',
-                    autoHide: false,
-                    topOffset:450,
-                    props: {
-                        onConfirm: () => {
-                            deleteProduct(itemId, imageUrl)
-                        },
-                        onCancel: () => {}
+        setDeletingId(itemId);
+        Toast.show({
+            type: 'confirm',
+            text1: 'Are you sure you want to delete this product?',
+            position: 'top',
+            autoHide: false,
+            topOffset: 450,
+            props: {
+                onConfirm: async () => {
+                    try {
+                        await deleteProduct(itemId, imageUrl);
+
+                        showToast.success('Product deleted successfully');
+                    } catch (error) {
+                        showToast.error('Delete Products Failed', error.message || 'Please try again')
+                    } finally {
+                        setDeletingId(null);
                     }
-                });
-        
+
+                },
+                onCancel: () => {
+                    setDeletingId(null);
+                }
+            }
+        });
     }
 
     async function cartHandler(product) {
-    try {
-        
-        addToCart(product);
-        
-       showToast.success('Added to Cart',`${product.name} has been added to your cart`)
-    
-        
-    } catch (error) {
-       
-        showToast.error('Failed to add item to cart')
+        try {
+            addToCart(product);
+            showToast.success('Added to Cart', `${product.name} has been added to your cart`)
+
+        } catch {
+
+            showToast.error('Failed to add item to cart')
+        }
     }
-}
 
     async function editProductHandler(itemId, imageUrl) {
         navigation.navigate(
@@ -61,7 +70,10 @@ export default function CategoryScreen({ route, navigation }) {
     }
 
     const categoryProducts = useMemo(() => {
-        return getProductsByCategory(categoryId);
+        const products = getProductsByCategory(categoryId);
+        return [...products].sort((a, b) =>
+            new Date(b.created_at) - new Date(a.created_at)
+        );
     }, [getProductsByCategory, categoryId]);
 
     return (
@@ -82,6 +94,7 @@ export default function CategoryScreen({ route, navigation }) {
                             index={index}
                             onPress={() => navigation.navigate('Details', { productId: item.id })}
                             onPressDelete={() => deleteProductHandler(item.id, item.imageUrl)}
+                            isDeleting={deletingId === item.id}
                             onPressEdit={() => editProductHandler(item.id, item.imageUrl)}
                             loading={loading}
                             onPressCart={cartHandler}
