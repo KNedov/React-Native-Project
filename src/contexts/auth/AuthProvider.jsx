@@ -2,6 +2,8 @@ import { createContext, useState, useEffect } from "react";
 import { authService } from "../../services/index.js";
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from "../../firebaseConfig.js";
+import Toast from "react-native-toast-message";
+import { handleFirebaseError } from "../../utils/errorHandler.js";
 
 export const AuthContext = createContext({
     isLoading: false,
@@ -43,8 +45,9 @@ export function AuthProvider({ children }) {
     }, []);
 
     const login = async (email, password) => {
+        setIsLoading(true)
         try {
-            
+
             const user = await authService.login(email, password);
 
             setAuthState({
@@ -55,8 +58,14 @@ export function AuthProvider({ children }) {
                 }
             });
         } catch (err) {
-            
-            throw err
+            const message = handleFirebaseError(err);
+            Toast.show({
+                type: 'error',
+                text1: 'Login Failed',
+                text2: message || 'Please try again'
+            });
+        } finally {
+            setIsLoading(false);
         }
     }
     const register = async (email, password, name) => {
@@ -72,12 +81,18 @@ export function AuthProvider({ children }) {
                     name: user.displayName,
                 }
             });
+            return { success: true };
         } catch (err) {
-            setError(err.message || 'An error occurred during registration');
-        }
-        finally {
+            const message = handleFirebaseError(err);
+            Toast.show({
+                type: 'error',
+                text1: 'Registration Failed',
+                text2: message || 'Please try again'
+            });
+        } finally {
             setIsLoading(false);
         }
+
     }
 
     const contextValue = {

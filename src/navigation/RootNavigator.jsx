@@ -9,13 +9,9 @@ import {ActivityIndicator} from "react-native"
 export default function RootNavigator() {
     const Stack = createNativeStackNavigator();
     const {theme}=useTheme()
-    const { isAuthenticated, isLoading } = useAuth();
+    const { isAuthenticated } = useAuth();
 
-    if (isLoading) {
-        return (
-            <ActivityIndicator size="large" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />
-        );
-    }
+
 
     return (
         <NavigationContainer theme={theme}>

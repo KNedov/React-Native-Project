@@ -24,10 +24,9 @@ export default function LoginScreen({ navigation }) {
     });
     const { theme } = useTheme()
     const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
-    const { login } = useAuth();
-    const { setRef, focusNextInput } = useInputRefs(); 
+    const { login, isLoading } = useAuth();
+    const { setRef, focusNextInput } = useInputRefs();
 
 
 
@@ -54,27 +53,7 @@ export default function LoginScreen({ navigation }) {
     const handleLogin = async () => {
 
         if (!validateForm()) return;
-
-
-        try {
-            setIsLoading(true)
-            await login(formData.email, formData.password)
-
-
-        } catch {
-
-            setIsLoading(false)
-            Toast.show({
-                type: 'error',
-                text1: 'Unsuccessful login. ',
-                text2: 'Please check your email and password.'
-
-            });
-
-
-        } finally {
-
-        }
+         await login(formData.email, formData.password)
     };
 
     return (
@@ -209,7 +188,7 @@ export default function LoginScreen({ navigation }) {
 
                 </ScrollView>
             </KeyboardAvoidingView>
-            
+
         </SafeAreaView>
     );
 };

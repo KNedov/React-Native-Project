@@ -8,7 +8,6 @@ import {
     KeyboardAvoidingView,
     Platform,
     ScrollView,
-    Alert,
     ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth/useAuth.js';
 import { useTheme } from "../../hooks/useTheme.js"
 import { useInputRefs } from '../../hooks/useInputRef.js';
+import Toast from 'react-native-toast-message';
 
 const RegisterScreen = ({ navigation }) => {
     const [formData, setFormData] = useState({
@@ -29,7 +29,7 @@ const RegisterScreen = ({ navigation }) => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errors, setErrors] = useState({});
     const { register, isLoading, error, clearError } = useAuth();
-    const { setRef, focusNextInput } = useInputRefs(); 
+    const { setRef, focusNextInput } = useInputRefs();
 
     const validateForm = () => {
         const newErrors = {};
@@ -64,19 +64,15 @@ const RegisterScreen = ({ navigation }) => {
     };
 
     const handleRegister = async () => {
-
         clearError();
         if (!validateForm()) return;
-
-        try {
-
-            await register(formData.email, formData.password, formData.name);
-
-        } catch (error) {
-            Alert.alert(
-                'Error',
-                'Registration failed. Please try again.'
-            );
+        const result = await register(formData.email, formData.password, formData.name);
+        if (result.success) {
+            Toast.show({
+                type: 'success',
+                text1: 'Registration Successful!',
+                text2: 'Welcome to Nexus Store!'
+            });
         }
     };
 
@@ -192,7 +188,7 @@ const RegisterScreen = ({ navigation }) => {
                                     color="#6C6C6C"
                                     style={styles.inputIcon}
                                 />
-                                <TextInput 
+                                <TextInput
                                     returnKeyType='go'
                                     ref={setRef("passwordInput")}
                                     onSubmitEditing={() => focusNextInput("confirmPassInput")}
