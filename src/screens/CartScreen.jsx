@@ -17,7 +17,7 @@ import CartFooter from '../components/CartFooter';
 import { Ionicons } from '@expo/vector-icons';
 import {calculateSubtotal,calculateTotal,calculateTax} from'../utils/cartUtils'
 
-export default function CartScreen({ navigation }) {
+export default function CartScreen({ navigation,route }) {
     const { theme } = useTheme();
     const {
         cartItems,
@@ -25,7 +25,7 @@ export default function CartScreen({ navigation }) {
         clearCart,
         updateQuantity,
     } = useCart();
-
+    const isCartModal=route.name==="CartModal"
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
 
@@ -196,6 +196,7 @@ export default function CartScreen({ navigation }) {
                     onCheckout={handleCheckout}
                     updating={updating}
                     taxRate={20}
+                    isCartModal={isCartModal}
                 />
             )}
         </SafeAreaView>

@@ -1,19 +1,20 @@
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function CartFooter({ 
-    theme, 
-    subtotal, 
-    tax, 
-    total, 
-    onCheckout, 
+export default function CartFooter({
+    theme,
+    subtotal,
+    tax,
+    total,
+    onCheckout,
     updating = false,
-    taxRate = 20 
+    taxRate = 20,
+    isCartModal
 }) {
     return (
         <View style={[styles.footer, { backgroundColor: theme.colors.card }]}>
             <View style={styles.summaryContainer}>
-                
+
                 <View style={styles.summaryRow}>
                     <Text style={[styles.summaryLabel, { color: theme.colors.text }]}>
                         Subtotal
@@ -23,7 +24,7 @@ export default function CartFooter({
                     </Text>
                 </View>
 
-              
+
                 <View style={styles.summaryRow}>
                     <Text style={[styles.summaryLabel, { color: theme.colors.text }]}>
                         Tax ({taxRate}%)
@@ -33,7 +34,7 @@ export default function CartFooter({
                     </Text>
                 </View>
 
-               
+
                 <View style={[styles.totalRow, { borderTopColor: theme.colors.border }]}>
                     <Text style={[styles.totalLabel, { color: theme.colors.text }]}>
                         Total
@@ -44,22 +45,24 @@ export default function CartFooter({
                 </View>
             </View>
 
-           
-            <TouchableOpacity
-                style={[styles.checkoutButton, { backgroundColor: theme.colors.primary }]}
-                onPress={onCheckout}
-                disabled={updating}
-                activeOpacity={0.8}
-            >
-                {updating ? (
-                    <ActivityIndicator color="#FFFFFF" />
-                ) : (
-                    <>
-                        <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
-                        <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
-                    </>
-                )}
-            </TouchableOpacity>
+            {!isCartModal
+                &&
+                <TouchableOpacity
+                    style={[styles.checkoutButton, { backgroundColor: theme.colors.primary }]}
+                    onPress={onCheckout}
+                    disabled={updating}
+                    activeOpacity={0.8}
+                >
+                    {updating ? (
+                        <ActivityIndicator color="#FFFFFF" />
+                    ) : (
+                        <>
+                            <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
+                            <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
+                        </>
+                    )}
+                </TouchableOpacity>}
+
         </View>
     );
 }
