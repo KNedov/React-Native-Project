@@ -90,74 +90,83 @@ export default function ItemCardWithGesture({
     };
 
     const handleCart = () => {
-    onPressCart(item);
-    positionX.value = withSpring(0);
-    isOpen.value = false;
-};
+        onPressCart(item);
+        positionX.value = withSpring(0);
+        isOpen.value = false;
+    };
 
     return (
-       <View style={{ position: 'relative' }}>
-    <GestureDetector gesture={combinedGesture}>
-        <Animated.View style={cardAnimatedStyle}>
-            <ItemCard {...item} />
-        </Animated.View>
-    </GestureDetector>
+        <View style={{ position: 'relative' }}>
+            <GestureDetector gesture={combinedGesture}>
+                <Animated.View style={cardAnimatedStyle}>
+                    {isOwner && (
+                        <View style={styles.ownerLabel}>
+                            <Ionicons name="star" size={14} color="#fff" />
+                            <Text style={styles.ownerLabelText}>My Product</Text>
+                        </View>
+                    )}
+                    
+                        <ItemCard {...item} />
+                    
 
-    <Animated.View
-        style={[
-            trashAnimatedStyle,
-            {
-                position: 'absolute',
-                right: 10,
-                top: 0,
-                bottom: 0,
-                justifyContent: 'center',
-                alignItems: 'center',
-                zIndex: 5,
-                pointerEvents: 'auto',
-            }
-        ]}
-    >
-        {isOwner ? (
-            <View style={styles.buttonsContainer}>
-                {!isDeleting ? (  
-                    <>
-                        <TouchableOpacity
-                            style={[styles.button, styles.deleteButton]}
-                            onPress={handleDelete}
-                            activeOpacity={0.7}
-                            disabled={isDeleting} 
-                        >
-                            <Ionicons name="trash-outline" size={32} color="#FF3B30" />
-                            <Text style={styles.deleteText}>Delete</Text>
-                        </TouchableOpacity>
+                </Animated.View>
+            </GestureDetector>
 
-                        <TouchableOpacity
-                            style={[styles.button, styles.editButton]}
-                            onPress={handleEdit}
-                            activeOpacity={0.7}
-                            disabled={isDeleting}  
-                        >
-                            <Ionicons name="pencil-outline" size={32} color="#007AFF" />
-                            <Text style={styles.editText}>Edit</Text>
-                        </TouchableOpacity>
-                    </>
-                ) : (
-                    <ActivityIndicator size="large" color="#007AFF" />
-                )}
-            </View>
-        ) : (
-            <TouchableOpacity
-                style={[styles.button, styles.cartButton]}
-                onPress={handleCart}
-                activeOpacity={0.7}
+            <Animated.View
+                style={[
+                    trashAnimatedStyle,
+                    {
+                        position: 'absolute',
+                        right: 10,
+                        top: 0,
+                        bottom: 0,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        zIndex: 5,
+                        pointerEvents: 'auto',
+                    }
+                ]}
             >
-                <Ionicons name="cart-outline" size={32} color="#007AFF" />
-                <Text style={styles.cartText}>Cart</Text>
-            </TouchableOpacity>
-        )}
-    </Animated.View>
-</View>
+                {isOwner ? (
+                    <View style={styles.buttonsContainer}>
+                        {!isDeleting ? (
+                            <>
+                                <TouchableOpacity
+                                    style={[styles.button, styles.deleteButton]}
+                                    onPress={handleDelete}
+                                    activeOpacity={0.7}
+                                    disabled={isDeleting}
+                                >
+                                    <Ionicons name="trash-outline" size={32} color="#FF3B30" />
+                                    <Text style={styles.deleteText}>Delete</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={[styles.button, styles.editButton]}
+                                    onPress={handleEdit}
+                                    activeOpacity={0.7}
+                                    disabled={isDeleting}
+                                >
+                                    <Ionicons name="pencil-outline" size={32} color="#007AFF" />
+                                    <Text style={styles.editText}>Edit</Text>
+                                </TouchableOpacity>
+                            </>
+                        ) : (
+                            <ActivityIndicator size="large" color="#007AFF" />
+                        )}
+                    </View>
+                ) : (
+                    <TouchableOpacity
+                        style={[styles.button, styles.cartButton]}
+                        onPress={handleCart}
+                        activeOpacity={0.7}
+                    >
+                        <Ionicons name="cart-outline" size={32} color="#007AFF" />
+                        <Text style={styles.cartText}>Cart</Text>
+                    </TouchableOpacity>
+                )}
+            </Animated.View>
+        </View>
     );
 }
 
@@ -221,14 +230,38 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     cartButton: {
-    backgroundColor: '#F0F8FF',
-    borderColor: '#007AFF',
-},
+        backgroundColor: '#F0F8FF',
+        borderColor: '#007AFF',
+    },
 
-cartText: {
-    color: '#007AFF',
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 4,
-},
+    cartText: {
+        color: '#007AFF',
+        fontSize: 16,
+        fontWeight: '600',
+        marginTop: 4,
+    },
+    ownerLabel: {
+        position: 'absolute',
+        bottom: 50,
+        right: 20,
+        backgroundColor: '#FFA500',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 16,
+        zIndex: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        elevation: 5,
+    },
+
+    ownerLabelText: {
+        color: '#fff',
+        fontSize: 12,
+        fontWeight: 'bold',
+    },
 });
