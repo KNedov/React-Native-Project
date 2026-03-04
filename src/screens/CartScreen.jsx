@@ -1,24 +1,20 @@
 import { useState, useEffect } from 'react';
 import {
     View,
-    Text,
     StyleSheet,
     FlatList,
-    TouchableOpacity,
     ActivityIndicator,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from "../hooks/useTheme";
 import { useCart } from '../contexts/cart/useCart';
 import Toast from 'react-native-toast-message';
 import CartItem from '../components/CartItem';
 import EmptyCart from '../components/EmptyCart';
 import CartFooter from '../components/CartFooter';
-import { Ionicons } from '@expo/vector-icons';
-import {calculateSubtotal,calculateTotal,calculateTax} from'../utils/cartUtils'
+import { calculateSubtotal, calculateTotal, calculateTax } from '../utils/cartUtils'
 import CustomHeader from '../components/CustomHeader';
 
-export default function CartScreen({ navigation,route }) {
+export default function CartScreen({ navigation, route }) {
     const { theme } = useTheme();
     const {
         cartItems,
@@ -26,7 +22,7 @@ export default function CartScreen({ navigation,route }) {
         clearCart,
         updateQuantity,
     } = useCart();
-    const isCartModal=route.name==="CartModal"
+    const isCartModal = route.name === "CartModal"
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
 
@@ -102,7 +98,7 @@ export default function CartScreen({ navigation,route }) {
         });
     };
 
-  
+
     const handleCheckout = () => {
         if (cartItems.length === 0) {
             Toast.show({
@@ -137,24 +133,25 @@ export default function CartScreen({ navigation,route }) {
 
     if (loading) {
         return (
-            <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+            
                 <View style={styles.loadingContainer}>
                     <ActivityIndicator size="large" color={theme.colors.primary} />
                 </View>
-            </SafeAreaView>
+           
         );
     }
 
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
 
-            <CustomHeader
-            theme={theme}
-            title={'Shoping Cart'}
-            navigation={navigation}
-            onClearAll={handleClearCart}
-
-            />
+            {!isCartModal &&
+                <CustomHeader
+                    navigation={navigation}
+                    theme={theme}
+                    title={'Shopping Cart'}
+                    onClearAll={handleClearCart}
+                    isCartModal={isCartModal}
+                />}
 
 
             <FlatList
@@ -175,6 +172,7 @@ export default function CartScreen({ navigation,route }) {
                     <EmptyCart
                         theme={theme}
                         onStartShopping={handleStartShopping}
+                        isCartModal={isCartModal}
                     />
                 }
             />
@@ -199,19 +197,22 @@ export default function CartScreen({ navigation,route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        
     },
     loadingContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'around',
-        gap:70,
+        gap: 70,
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingVertical: 16,
+
     },
     headerTitle: {
         fontSize: 28,
@@ -224,5 +225,6 @@ const styles = StyleSheet.create({
     listContent: {
         paddingHorizontal: 20,
         paddingBottom: 20,
+        paddingTop:5
     }
 });

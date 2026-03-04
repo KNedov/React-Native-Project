@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CartFooter({
     theme,
@@ -11,6 +12,62 @@ export default function CartFooter({
     taxRate = 20,
     isCartModal
 }) {
+    if(isCartModal){
+     return(
+         <SafeAreaView edges={['right', 'bottom', 'left']} style={[styles.footer, { backgroundColor: theme.colors.card }]}>
+            <View style={styles.summaryContainer}>
+
+                <View style={styles.summaryRow}>
+                    <Text style={[styles.summaryLabel, { color: theme.colors.text }]}>
+                        Subtotal
+                    </Text>
+                    <Text style={[styles.summaryValue, { color: theme.colors.text }]}>
+                        ${subtotal.toFixed(2)}
+                    </Text>
+                </View>
+
+
+                <View style={styles.summaryRow}>
+                    <Text style={[styles.summaryLabel, { color: theme.colors.text }]}>
+                        Tax ({taxRate}%)
+                    </Text>
+                    <Text style={[styles.summaryValue, { color: theme.colors.text }]}>
+                        ${tax.toFixed(2)}
+                    </Text>
+                </View>
+
+
+                <View style={[styles.totalRow, { borderTopColor: theme.colors.border }]}>
+                    <Text style={[styles.totalLabel, { color: theme.colors.text }]}>
+                        Total
+                    </Text>
+                    <Text style={[styles.totalValue, { color: theme.colors.primary }]}>
+                        ${total.toFixed(2)}
+                    </Text>
+                </View>
+            </View>
+
+            {!isCartModal
+                &&
+                <TouchableOpacity
+                    style={[styles.checkoutButton, { backgroundColor: theme.colors.primary }]}
+                    onPress={onCheckout}
+                    disabled={updating}
+                    activeOpacity={0.8}
+                >
+                    {updating ? (
+                        <ActivityIndicator color="#FFFFFF" />
+                    ) : (
+                        <>
+                            <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
+                            <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
+                        </>
+                    )}
+                </TouchableOpacity>}
+
+        </SafeAreaView>
+     )   
+    }
     return (
         <View style={[styles.footer, { backgroundColor: theme.colors.card }]}>
             <View style={styles.summaryContainer}>

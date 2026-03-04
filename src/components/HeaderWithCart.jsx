@@ -5,39 +5,37 @@ import { useCart } from '../contexts/cart/useCart';
 import { useTheme } from '../hooks/useTheme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function HeaderWithCart({ title }) {
+export default function HeaderWithCart({ title,showCartIcon=true}) {
   const navigation = useNavigation();
   const { theme } = useTheme();
   const { cartItems } = useCart();
-
   const handleCartPress = () => {
     navigation.navigate('CartModal');
   };
 
   return (
-    <SafeAreaView 
+    <SafeAreaView
       style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
       edges={['top']}
     >
       <View style={styles.container}>
         <View style={styles.leftSection} />
-        
+
         <Text style={[styles.title, { color: theme.colors.text }]}>
           {title}
         </Text>
-
-        <View style={styles.rightSection}>
-          <TouchableOpacity onPress={handleCartPress} style={styles.cartButton}>
-            <View>
-              <Ionicons name="cart-outline" size={24} color={theme.colors.text} />
-              {cartItems?.length > 0 && (
-                <View style={[styles.badge, { backgroundColor: theme.colors.primary }]}>
-                  <Text style={styles.badgeText}>{cartItems.length}</Text>
-                </View>
-              )}
-            </View>
-          </TouchableOpacity>
-        </View>
+       {showCartIcon&& <View style={styles.rightSection}>
+            <TouchableOpacity onPress={handleCartPress} style={styles.cartButton}>
+              <View>
+                <Ionicons name="cart-outline" size={24} color={theme.colors.text} />
+                {cartItems?.length > 0 && (
+                  <View style={[styles.badge, { backgroundColor: theme.colors.primary }]}>
+                    <Text style={styles.badgeText}>{cartItems.length}</Text>
+                  </View>
+                )}
+              </View>
+            </TouchableOpacity>
+        </View>}
       </View>
     </SafeAreaView>
   );

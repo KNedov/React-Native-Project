@@ -7,11 +7,10 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from "../hooks/useTheme";
 import { useCart } from '../contexts/cart/useCart';
-import Toast from 'react-native-toast-message';
 import { OrderUtils } from '../utils/orderUtils'
 import CustomHeader from '../components/CustomHeader';
 
@@ -36,7 +35,7 @@ export default function OrderDetailsScreen({ navigation, route }) {
 
 if (!order) {
         return (
-            <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+            <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
                 <View style={styles.errorContainer}>
                     <Ionicons name="alert-circle-outline" size={60} color="#FF3B30" />
                     <Text style={[styles.errorText, { color: theme.colors.text }]}>
@@ -49,7 +48,7 @@ if (!order) {
                         <Text style={styles.backButtonText}>Go Back</Text>
                     </TouchableOpacity>
                 </View>
-            </SafeAreaView>
+            </View>
         );
     }
 

@@ -10,7 +10,6 @@ import {
     ScrollView,
     ActivityIndicator,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth/useAuth.js';
 import { useTheme } from "../../hooks/useTheme.js"
@@ -82,7 +81,7 @@ const RegisterScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }, { color: theme.colors.background }]}>
+        <View style={[styles.container, { backgroundColor: theme.colors.background }, { color: theme.colors.background }]}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 100}
@@ -304,7 +303,7 @@ const RegisterScreen = ({ navigation }) => {
                     </Text>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </View>
     );
 };
 

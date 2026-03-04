@@ -21,7 +21,6 @@ import { useImagePick } from '../hooks/useImagePick';
 import { useFormValidation } from '../hooks/useFormValidation';
 import Toast from 'react-native-toast-message';
 import { CATEGORIES } from '../utils/constantUtil';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLoadProductForEdit } from '../hooks/useLoadProductForEdit';
 import { showToast } from '../utils/toast';
 import CustomHeader from '../components/CustomHeader';

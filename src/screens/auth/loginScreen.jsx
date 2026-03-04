@@ -10,7 +10,6 @@ import {
     ScrollView,
     ActivityIndicator,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth/useAuth.js';
 import { useTheme } from "../../hooks/useTheme.js"
@@ -62,7 +61,7 @@ export default function LoginScreen({ navigation }) {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 100}
@@ -194,7 +193,7 @@ export default function LoginScreen({ navigation }) {
                 </ScrollView>
             </KeyboardAvoidingView>
 
-        </SafeAreaView>
+        </View>
     );
 };
 

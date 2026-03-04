@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function EmptyCart({ theme, onStartShopping }) {
+export default function EmptyCart({ theme, onStartShopping, isCartModal }) {
     return (
         <View style={styles.emptyContainer}>
             <Ionicons name="cart-outline" size={80} color={theme.colors.text} />
@@ -11,12 +11,15 @@ export default function EmptyCart({ theme, onStartShopping }) {
             <Text style={[styles.emptySubtitle, { color: theme.colors.text }]}>
                 Looks like you haven't added anything to your cart yet
             </Text>
-            <TouchableOpacity
-                style={[styles.shopButton, { backgroundColor: theme.colors.primary }]}
-                onPress={onStartShopping}
-            >
-                <Text style={styles.shopButtonText}>Start Shopping</Text>
-            </TouchableOpacity>
+            {!isCartModal
+                &&
+                <TouchableOpacity
+                    style={[styles.shopButton, { backgroundColor: theme.colors.primary }]}
+                    onPress={onStartShopping}
+                >
+                    <Text style={styles.shopButtonText}>Start Shopping</Text>
+                </TouchableOpacity>
+            }
         </View>
     );
 }

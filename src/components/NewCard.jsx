@@ -22,11 +22,6 @@ export default function NewCard({ lastProduct, onPress, }) {
                     <View style={{ paddingBottom: 30, gap: 2 }}>
                         <Text style={{ fontSize: 12, color: theme.colors.textCard }}>Introducing</Text>
                         <Text style={{ fontSize: 16, fontWeight: 'bold', color: theme.colors.textCard }}>{lastProduct.name}</Text>
-
-                        <View style={{ backgroundColor: 'gray', width: 80, alignItems: 'center', justifyContent: 'center', paddingTop: 6, paddingBottom: 6, borderRadius: 6, marginTop: 10 }}>
-                            <Text style={{ fontSize: 16, color: "white" }} >Buy Now!</Text>
-                        </View>
-
                     </View>
                 </View>
             </View>

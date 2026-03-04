@@ -14,7 +14,10 @@ export default function CustomHeader({
     <View style={[styles.header, { backgroundColor: theme.colors.background }]}>
       <View style={styles.leftContainer}>
         {navigation && (
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity
+           onPress={() => navigation.goBack()}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+           >
             <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
           </TouchableOpacity>
         )}

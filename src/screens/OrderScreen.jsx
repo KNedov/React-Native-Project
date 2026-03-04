@@ -10,7 +10,6 @@ import {
     RefreshControl,
     Alert,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from "../hooks/useTheme";
 import { useCart } from '../contexts/cart/useCart';
@@ -18,7 +17,7 @@ import Toast from 'react-native-toast-message';
 
 export default function OrderScreen({ navigation }) {
     const { theme } = useTheme();
-    const { completedOrders,clearAllOrders } = useCart();
+    const { completedOrders, clearAllOrders } = useCart();
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = () => {
@@ -75,7 +74,7 @@ export default function OrderScreen({ navigation }) {
         });
     };
 
- 
+
 
 
 
@@ -170,7 +169,10 @@ export default function OrderScreen({ navigation }) {
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
 
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                >
                     <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                 </TouchableOpacity>
                 <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
@@ -183,25 +185,25 @@ export default function OrderScreen({ navigation }) {
                             style={[styles.clearButton, { backgroundColor: theme.colors.card }]}
                             onPress={() => {
                                 Toast.show({
-                                            type: 'confirm',
-                                            text1: 'Remove Item',
-                                            text2: `Are you sure you want to remove All orders?`,
-                                            position: 'top',
-                                            autoHide: false,
-                                            props: {
-                                                onConfirm: () => {
-                                                    clearAllOrders()
-                                                    Toast.show({
-                                                        type: 'success',
-                                                        text1: 'Orders are Removed',
-                                                        position: 'top',
-                                                        bottomOffset:100,
-                                                        visibilityTime: 1500,
-                                                    });
-                                                },
-                                                onCancel: () => {}
-                                            }
-                                        });
+                                    type: 'confirm',
+                                    text1: 'Remove Item',
+                                    text2: `Are you sure you want to remove All orders?`,
+                                    position: 'top',
+                                    autoHide: false,
+                                    props: {
+                                        onConfirm: () => {
+                                            clearAllOrders()
+                                            Toast.show({
+                                                type: 'success',
+                                                text1: 'Orders are Removed',
+                                                position: 'top',
+                                                bottomOffset: 100,
+                                                visibilityTime: 1500,
+                                            });
+                                        },
+                                        onCancel: () => { }
+                                    }
+                                });
                             }}
                         >
                             <Ionicons name="trash-bin-outline" size={20} color="#FF3B30" />
@@ -400,7 +402,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '600',
     },
-     actionsHeader: {
+    actionsHeader: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
