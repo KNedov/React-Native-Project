@@ -15,6 +15,7 @@ import { useAuth } from '../../contexts/auth/useAuth.js';
 import { useTheme } from "../../hooks/useTheme.js"
 import { useInputRefs } from '../../hooks/useInputRef.js';
 import { showToast } from '../../utils/toast.js';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoginScreen({ navigation }) {
     const [formData, setFormData] = useState({
@@ -61,7 +62,7 @@ export default function LoginScreen({ navigation }) {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 100}
@@ -193,7 +194,7 @@ export default function LoginScreen({ navigation }) {
                 </ScrollView>
             </KeyboardAvoidingView>
 
-        </View>
+        </SafeAreaView>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import {
     View,
     Text,
@@ -16,6 +16,7 @@ import { useTheme } from "../../hooks/useTheme.js"
 import { useInputRefs } from '../../hooks/useInputRef.js';
 import Toast from 'react-native-toast-message';
 import { showToast } from '../../utils/toast.js';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const RegisterScreen = ({ navigation }) => {
     const [formData, setFormData] = useState({
@@ -81,7 +82,7 @@ const RegisterScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={[styles.container, { backgroundColor: theme.colors.background }, { color: theme.colors.background }]}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }, { color: theme.colors.background }]}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 100}
@@ -303,7 +304,7 @@ const RegisterScreen = ({ navigation }) => {
                     </Text>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </View>
+        </SafeAreaView>
     );
 };
 
