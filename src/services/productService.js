@@ -37,7 +37,7 @@ export async function create(fullProductData) {
 
         return { id: result.id, ...productData, imageUrl: imageUrlFromStore };
     } else {
-        const result = await addDoc(collection(db, "products"), {
+        const result = await addDoc(collection(db, COLLECTION_NAME), {
             ...fullProductData,
         });
 

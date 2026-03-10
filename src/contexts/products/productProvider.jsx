@@ -1,6 +1,7 @@
 import { useEffect, useState, createContext, useCallback, useMemo } from "react";
 import { productService } from "../../services";
 import Toast from "react-native-toast-message";
+import { handleFirebaseError } from "../../utils/errorHandler";
 
 export const ProductContext = createContext({
 
@@ -44,6 +45,7 @@ export function ProductProvider({ children }) {
             setProducts(data);
             return { success: true, products: data };
         } catch (error) {
+          
             const message = handleFirebaseError(error);
             Toast.show({
                 type: 'error',
