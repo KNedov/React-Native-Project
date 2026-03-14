@@ -65,7 +65,6 @@ export async function getAll() {
             ...doc.data(),
         }));
     } catch (error) {
-        
         throw error;
     }
 }
@@ -85,36 +84,47 @@ export async function update(productId, updateData) {
             updateData.imageUrl?.startsWith("file://") ||
             updateData.imageUrl?.includes("ph://") ||
             updateData.imageUrl?.includes("content://");
-        if (oldImageUrl?.includes("firebasestorage")) {
-            
-               
-                const oldImageRef = ref(storage, oldImageUrl);
-                await deleteObject(oldImageRef);
-          
-        }
 
         if (isLocalFile) {
-         
-            try{
-                newImageUrl = await uploadImage(updateData.imageUrl);
-            }catch(err){
-                Toast.show({ type: 'error', text1: 'Failed to upload image' });
+            if (oldImageUrl?.includes("firebasestorage")) {
+                try {
+                    const oldImageRef = ref(storage, oldImageUrl);
+                    await deleteObject(oldImageRef);
+                } catch (deleteError) {
+
+                }
             }
-           
+
+            try {
+                newImageUrl = await uploadImage(updateData.imageUrl);
+            } catch (err) {
+                Toast.show({ type: "error", text1: "Failed to upload image" });
+                newImageUrl = oldImageUrl;
+            }
+        } else {
+            if (
+                newImageUrl !== oldImageUrl &&
+                oldImageUrl?.includes("firebasestorage")
+            ) {
+                try {
+                    const oldImageRef = ref(storage, oldImageUrl);
+                    await deleteObject(oldImageRef);
+                } catch (deleteError) {
+                }
+            }
+            newImageUrl = updateData.imageUrl;
         }
 
         const updatedProduct = {
             ...updateData,
             imageUrl: newImageUrl,
-            id:productId,
+            id: productId,
             created_at: createdAt,
-           
         };
-       
+
         await updateDoc(docRef, updatedProduct);
 
-        return updatedProduct
-        
+        return updatedProduct;
     } catch (error) {
         throw error;
     }
@@ -126,15 +136,12 @@ export async function deleteProduct(productId, imageUrl) {
         await deleteDoc(docRef);
 
         if (imageUrl?.includes("firebasestorage")) {
-            
-               
-                try{
-                    const imageRef = ref(storage, imageUrl);
+            try {
+                const imageRef = ref(storage, imageUrl);
                 await deleteObject(imageRef);
-                }catch{
-                    Toast.show({type:'error',text1:'Failedto delete Image'})
-                }
-           
+            } catch {
+                Toast.show({ type: "error", text1: "Failedto delete Image" });
+            }
         }
 
         return { success: true, id: productId };
