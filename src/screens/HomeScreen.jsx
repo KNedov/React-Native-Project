@@ -38,7 +38,7 @@ export default function HomeScreen({ navigation }) {
     return (
         loading && !refreshing && !featuredItems?.length
             ?
-            <View style={[styles.loadingContainer, { backgroundColor: theme.colors.background }]}>
+            <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center' },{backgroundColor:theme.colors.background}]}>
                 <ActivityIndicator size="large" color={theme.colors.primary} />
             </View>
             :

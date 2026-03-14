@@ -6,7 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useTheme } from "../hooks/useTheme";
 import CartScreen from "../screens/CartScreen";
 import HeaderWithCart from "../components/HeaderWithCart";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 
 
 export default function RootNavigator() {
@@ -15,45 +15,42 @@ export default function RootNavigator() {
     const { isAuthenticated } = useAuth();
 
 
-
-
-
     return (
-     
-            <NavigationContainer theme={theme}>
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    {isAuthenticated
-                        ? <>
-                            <Stack.Screen name='TabNavigator'
-                                component={TabNavigator}
-                                options={{
-                                    header: () => <HeaderWithCart title="Nexus Store" />,
-                                    headerShown: true,
-                               
-                                }}
 
-                            />
-                            <Stack.Screen
-                                name="CartModal"
-                                component={CartScreen}
-                                options={{
-                                    headerTitle: 'Shopping Cart',
-                                    presentation: 'modal',
-                                    headerShown: true,
+        <NavigationContainer theme={theme}>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                {isAuthenticated
+                    ? <>
+                        <Stack.Screen name='TabNavigator'
+                            component={TabNavigator}
+                            options={{
+                                header: () => <HeaderWithCart title="Nexus Store" />,
+                                headerShown: true,
 
+                            }}
 
-                                }}
-                            />
-
-                        </>
+                        />
+                        <Stack.Screen
+                            name="CartModal"
+                            component={CartScreen}
+                            options={{
+                                headerTitle: 'Shopping Cart',
+                                presentation: 'modal',
+                                headerShown: true,
 
 
-                        : <Stack.Screen name='Auth' component={AuthNavigator} />
-                    }
-                </Stack.Navigator>
+                            }}
+                        />
 
-            </NavigationContainer>
-     
+                    </>
+
+
+                    : <Stack.Screen name='Auth' component={AuthNavigator} />
+                }
+            </Stack.Navigator>
+
+        </NavigationContainer>
+
 
     )
 }

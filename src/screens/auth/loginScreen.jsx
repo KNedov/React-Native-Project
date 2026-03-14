@@ -53,147 +53,150 @@ export default function LoginScreen({ navigation }) {
     const handleLogin = async () => {
 
         if (!validateForm()) return;
-         try{
+        try {
             await login(formData.email, formData.password)
             showToast.success('Login Successful');
-         }catch(error){
-            showToast.error('Login Failed',error.message||'Please try again')
-         }
+        } catch (error) {
+            showToast.error('Login Failed', error.message || 'Please try again')
+        }
     };
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 100}
-                style={styles.keyboardView}
-            >
-                <ScrollView
-                    contentContainerStyle={styles.scrollContent}
-                    showsVerticalScrollIndicator={false}
+            {!isLoading ?
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 100}
+                    style={styles.keyboardView}
                 >
+                    <ScrollView
+                        contentContainerStyle={styles.scrollContent}
+                        showsVerticalScrollIndicator={false}
+                    >
 
-                    <View style={styles.header}>
-                        <View style={[styles.logoContainer, { backgroundColor: theme.colors.background }]}>
-                            <Ionicons name="person-circle-outline" size={60} color="#007AFF" />
+                        <View style={styles.header}>
+                            <View style={[styles.logoContainer, { backgroundColor: theme.colors.background }]}>
+                                <Ionicons name="person-circle-outline" size={60} color="#007AFF" />
 
-                        </View>
-                        <Text style={[styles.title, { color: theme.colors.textCard }]}>Welcome !</Text>
-                        <Text style={[styles.subtitle, { color: theme.colors.textCard }]}>Login to your account</Text>
-                    </View>
-
-
-
-
-                    <View style={styles.form}>
-
-                        <View style={styles.inputContainer}>
-                            <Text style={[styles.label, { color: theme.colors.textCard }]}>Email</Text>
-                            <View style={[
-                                styles.inputWrapper,
-                                errors.email && styles.inputWrapperError,
-                                { backgroundColor: theme.colors.background }
-                            ]}>
-                                <Ionicons
-                                    name="mail-outline"
-                                    size={20}
-                                    color={theme.colors.textCreate}
-                                    style={styles.inputIcon}
-                                />
-                                <TextInput
-                                    style={[styles.input, { backgroundColor: theme.colors.background }, { color: theme.colors.text }]}
-                                    placeholder="example@email.com"
-                                    placeholderTextColor={theme.colors.textCard}
-                                    value={formData.email}
-                                    onChangeText={(text) => {
-                                        setFormData({ ...formData, email: text });
-                                        if (errors.email) {
-                                            setErrors({ ...errors, email: null });
-                                        }
-                                    }}
-                                    keyboardType="email-address"
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                    returnKeyType='go'
-                                    ref={setRef("emailInput")}
-                                    onSubmitEditing={() => focusNextInput("passwordInput")}
-                                />
                             </View>
-                            {errors.email && (
-                                <Text style={styles.errorText}>{errors.email}</Text>
-                            )}
+                            <Text style={[styles.title, { color: theme.colors.textCard }]}>Welcome !</Text>
+                            <Text style={[styles.subtitle, { color: theme.colors.textCard }]}>Login to your account</Text>
                         </View>
 
 
-                        <View style={styles.inputContainer}>
-                            <Text style={[styles.label, { color: theme.colors.textCard }]}>Password</Text>
-                            <View style={[
-                                styles.inputWrapper,
-                                errors.password && styles.inputWrapperError,
-                                { backgroundColor: theme.colors.background }
-                            ]}>
-                                <Ionicons
-                                    name="lock-closed-outline"
-                                    size={20}
-                                    color="#6C6C6C"
-                                    style={styles.inputIcon}
-                                />
-                                <TextInput
-                                    style={[styles.input, { backgroundColor: theme.colors.background }, { color: theme.colors.text }]}
-                                    placeholder="********"
-                                    placeholderTextColor={theme.colors.textCard}
-                                    value={formData.password}
-                                    ref={setRef("passwordInput")}
-                                    onChangeText={(text) => {
-                                        setFormData({ ...formData, password: text });
-                                        if (errors.password) {
-                                            setErrors({ ...errors, password: null });
-                                        }
-                                    }}
-                                    secureTextEntry={!showPassword}
-                                    onSubmitEditing={handleLogin}
-                                />
-                                <TouchableOpacity
-                                    onPress={() => setShowPassword(!showPassword)}
-                                    style={[styles.eyeIcon, { backgroundColor: theme.colors.background }]}
-                                >
+
+
+                        <View style={styles.form}>
+
+                            <View style={styles.inputContainer}>
+                                <Text style={[styles.label, { color: theme.colors.textCard }]}>Email</Text>
+                                <View style={[
+                                    styles.inputWrapper,
+                                    errors.email && styles.inputWrapperError,
+                                    { backgroundColor: theme.colors.background }
+                                ]}>
                                     <Ionicons
-                                        name={showPassword ? "eye-off-outline" : "eye-outline"}
+                                        name="mail-outline"
+                                        size={20}
+                                        color={theme.colors.textCreate}
+                                        style={styles.inputIcon}
+                                    />
+                                    <TextInput
+                                        style={[styles.input, { backgroundColor: theme.colors.background }, { color: theme.colors.text }]}
+                                        placeholder="example@email.com"
+                                        placeholderTextColor={theme.colors.textCard}
+                                        value={formData.email}
+                                        onChangeText={(text) => {
+                                            setFormData({ ...formData, email: text });
+                                            if (errors.email) {
+                                                setErrors({ ...errors, email: null });
+                                            }
+                                        }}
+                                        keyboardType="email-address"
+                                        autoCapitalize="none"
+                                        autoCorrect={false}
+                                        returnKeyType='go'
+                                        ref={setRef("emailInput")}
+                                        onSubmitEditing={() => focusNextInput("passwordInput")}
+                                    />
+                                </View>
+                                {errors.email && (
+                                    <Text style={styles.errorText}>{errors.email}</Text>
+                                )}
+                            </View>
+
+
+                            <View style={styles.inputContainer}>
+                                <Text style={[styles.label, { color: theme.colors.textCard }]}>Password</Text>
+                                <View style={[
+                                    styles.inputWrapper,
+                                    errors.password && styles.inputWrapperError,
+                                    { backgroundColor: theme.colors.background }
+                                ]}>
+                                    <Ionicons
+                                        name="lock-closed-outline"
                                         size={20}
                                         color="#6C6C6C"
-
+                                        style={styles.inputIcon}
                                     />
+                                    <TextInput
+                                        style={[styles.input, { backgroundColor: theme.colors.background }, { color: theme.colors.text }]}
+                                        placeholder="********"
+                                        placeholderTextColor={theme.colors.textCard}
+                                        value={formData.password}
+                                        ref={setRef("passwordInput")}
+                                        onChangeText={(text) => {
+                                            setFormData({ ...formData, password: text });
+                                            if (errors.password) {
+                                                setErrors({ ...errors, password: null });
+                                            }
+                                        }}
+                                        secureTextEntry={!showPassword}
+                                        onSubmitEditing={handleLogin}
+                                    />
+                                    <TouchableOpacity
+                                        onPress={() => setShowPassword(!showPassword)}
+                                        style={[styles.eyeIcon, { backgroundColor: theme.colors.background }]}
+                                    >
+                                        <Ionicons
+                                            name={showPassword ? "eye-off-outline" : "eye-outline"}
+                                            size={20}
+                                            color="#6C6C6C"
+
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                                {errors.password && (
+                                    <Text style={styles.errorText}>{errors.password}</Text>
+                                )}
+                            </View>
+
+                            <TouchableOpacity
+                                style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
+                                onPress={handleLogin}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? (
+                                    <ActivityIndicator color="#FFFFFF" />
+                                ) : (
+                                    <Text style={styles.loginButtonText}>Login</Text>
+                                )}
+                            </TouchableOpacity>
+
+
+                            <View style={styles.registerContainer}>
+                                <Text style={styles.registerText}>Don't have an account? </Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                                    <Text style={styles.registerLink}>Register</Text>
                                 </TouchableOpacity>
                             </View>
-                            {errors.password && (
-                                <Text style={styles.errorText}>{errors.password}</Text>
-                            )}
                         </View>
 
-                        <TouchableOpacity
-                            style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
-                            onPress={handleLogin}
-                            disabled={isLoading}
-                        >
-                            {isLoading ? (
-                                <ActivityIndicator color="#FFFFFF" />
-                            ) : (
-                                <Text style={styles.loginButtonText}>Login</Text>
-                            )}
-                        </TouchableOpacity>
-
-
-                        <View style={styles.registerContainer}>
-                            <Text style={styles.registerText}>Don't have an account? </Text>
-                            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                                <Text style={styles.registerLink}>Register</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                </ScrollView>
-            </KeyboardAvoidingView>
-
+                    </ScrollView>
+                </KeyboardAvoidingView>
+                : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <ActivityIndicator size="large" color="#007AFF" />
+                </View>}
         </SafeAreaView>
     );
 };
