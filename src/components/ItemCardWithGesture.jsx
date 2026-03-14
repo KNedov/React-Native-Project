@@ -56,8 +56,8 @@ export default function ItemCardWithGesture({
         })
         .onEnd((event) => {
             if (!isOpen.value) {
-                if (event.translationX < -120) {
-                    positionX.value = withSpring(-180);
+                if (event.translationX < -100) {
+                    positionX.value = withSpring(-210);
                     isOpen.value = true;
                 } else {
                     positionX.value = withSpring(0);
@@ -122,7 +122,6 @@ export default function ItemCardWithGesture({
                         bottom: 0,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        zIndex: 5,
                         pointerEvents: 'auto',
                     }
                 ]}
