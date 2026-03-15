@@ -5,7 +5,7 @@
   
   ## 📲 Download APK
 
-  <a href="https://expo.dev/accounts/krasimirnedov/projects/nexus-store/builds/e788f5d6-4866-458b-a56b-1065f25a59d7">
+  <a href="https://expo.dev/accounts/krasimirnedov/projects/nexus-store/builds/52a61e7d-8762-4f86-b1a7-542bedf224aa">
     <img src="https://img.shields.io/badge/Download-APK-brightgreen?style=for-the-badge&logo=android" alt="Download APK" />
   </a>
   
@@ -14,7 +14,7 @@
     <strong>⬆️ Click the button above to download directly ⬆️</strong><br />
     or<br />
     <strong>🔗 Alternative link (Google Drive):</strong> 
-    <a href="https://drive.google.com/file/d/1N_YgKfqQy3_hyoQosbI7lx2o6gq6AIZJ/view?usp=drive_link">Google Drive</a>
+    <a href="https://drive.google.com/file/d/1Zorfle1RjEeUC05BHtLD1zPJdGENDpv5/view?usp=drive_link">Google Drive</a>
   </p>
   
   <p>
